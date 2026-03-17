@@ -1,6 +1,11 @@
+import type { RootState } from "@/app/config";
+import { removeAll } from "@/features/selected-tabs-reducer";
+import { remove } from "@/features/tabs-reducer";
+import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { TabsWrapper } from "@/widgets/tabs-wrapper";
-import { Button, Input, Stack, Typography } from "@mui/joy";
-import type { FC } from "react";
+import { Button, Checkbox, Input, Stack, Typography } from "@mui/joy";
+import { useEffect, useMemo, useState, type ChangeEventHandler, type FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 interface HomePageProps {
@@ -9,11 +14,43 @@ interface HomePageProps {
 
 export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
   const navigate = useNavigate();
+
   const handleCreateTabClick = () => {
-    navigate(pathToNewTabPage, {
-      relative: 'path'
+    navigate(pathToNewTabPage)
+  }
+
+  const [checked, setChecked] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
+  
+  const { selectedTabsIds } = useSelector((state: RootState) => state.selectedTabsReducer);
+  const { tabs } = useSelector((state: RootState) => state.tabsReducer)
+
+  const handleCheckedChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const { checked } = event.currentTarget;
+
+    if (!checked) {
+      dispatch(removeAll())
+    }
+
+    setChecked(checked)
+  }
+
+  const handleDelete = () => {
+    selectedTabsIds.forEach(id => {
+      dispatch(remove(id))
     })
   }
+
+  const deleteButtonDisabled = useMemo<boolean>(() => selectedTabsIds.length === 0, [selectedTabsIds]);
+
+  useEffect(() => {
+    saveTabsInStorage(tabs);
+
+    if (!tabs.length) {
+      dispatch(removeAll())
+    }
+  }, [tabs])
 
   return (
     <Stack spacing={2}>
@@ -21,11 +58,14 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
 
       <Stack spacing={2}>
         <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
+        <Checkbox label="Выбрать" checked={checked} onChange={handleCheckedChange} />
+
+        {checked && <Button onClick={handleDelete} disabled={deleteButtonDisabled}>Удалить</Button>}
 
         <Input placeholder="Поиск табулатур" />
       </Stack>
 
-      <TabsWrapper />
+      <TabsWrapper selectMode={checked} />
     </Stack>
   )
 }

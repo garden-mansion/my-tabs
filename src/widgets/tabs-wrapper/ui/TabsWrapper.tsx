@@ -5,10 +5,22 @@ import { TabCard } from "./TabCard";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/app/config";
 
-export const TabsWrapper: FC = () => {
+interface TabsWrapperProps {
+  selectMode?: boolean;
+}
+
+export const TabsWrapper: FC<TabsWrapperProps> = ({ selectMode = false }) => {
   const tabs = useSelector((state: RootState) => state.tabsReducer.tabs);
 
-  return tabs.length ? <Grid container columnSpacing={2} rowSpacing={2} sx={{ flexGrow: 1}}>
-  {tabs.map(tab => <Grid key={tab.id}><TabCard  tab={tab} /></Grid>)}
-</Grid> : <Alert>Нет данных</Alert>
+  if (!tabs.length) {
+    return (
+      <Alert>Нет данных</Alert>
+    )
+  }
+
+  return (
+    <Grid container columnSpacing={2} rowSpacing={2} sx={{ flexGrow: 1}}>
+      {tabs.map(tab => <Grid key={tab.id}><TabCard selectMode={selectMode} tab={tab} /></Grid>)}
+    </Grid>
+  )
 }

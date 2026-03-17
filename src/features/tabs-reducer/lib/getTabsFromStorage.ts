@@ -11,6 +11,7 @@ export const getTabsFromStorage: GetTabsFromStorageType = () => {
   try {
     savedTabs = JSON.parse(savedTabsRaw)
   } catch {
+    console.error('не получилось спарсить сохраненные в local storage табы', savedTabsRaw)
     return [];
   }
 

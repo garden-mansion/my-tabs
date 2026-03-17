@@ -1,7 +1,7 @@
 import type { RootState } from "@/app/config";
 import type { Tab } from "@/entities/tab";
-import { append } from "@/features/tab";
-import { saveTabsInStorage } from "@/features/tab/lib/saveTabsInStorage";
+import { append } from "@/features/tabs-reducer";
+import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Stack, Typography } from "@mui/joy";
 import dayjs from "dayjs";
 import { uniqueId } from "lodash";
@@ -53,10 +53,8 @@ export const NewTabPage: FC = () => {
   }
 
   useEffect(() => {
-    return () => {
-      saveTabsInStorage(tabs)
-    }
-  }, [])
+    saveTabsInStorage(tabs)
+  }, [tabs])
 
   return (
     <Stack spacing={2}>

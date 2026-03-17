@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 
 import { Provider } from 'react-redux'
 
-import { PATH as HOME_PATH, HomePage } from '@/pages/home';
+import { HomePage } from '@/pages/home';
 import { PATH as NEW_TAB_PATH, NewTabPage } from '@/pages/new-tab'
 import { store } from './app/config'
 import dayjs from 'dayjs';
