@@ -4,9 +4,10 @@ import { append } from "@/features/tabs-reducer";
 import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Stack, Typography } from "@mui/joy";
 import dayjs from "dayjs";
-import { uniqueId } from "lodash";
 import { useEffect, useState, type ChangeEventHandler, type FC, type SubmitEventHandler } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { v4 } from 'uuid'
 
 export const NewTabPage: FC = () => {
   const [tabName, setTabName] = useState<string>('');
@@ -37,7 +38,7 @@ export const NewTabPage: FC = () => {
 
     const newTab: Tab = {
       name: tabName,
-      id: uniqueId(),
+      id: v4(),
       date: {
         year: now.year(),
         month: now.month(),

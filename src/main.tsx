@@ -8,6 +8,8 @@ import { HomePage } from '@/pages/home';
 import { PATH as NEW_TAB_PATH, NewTabPage } from '@/pages/new-tab'
 import { store } from './app/config'
 import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+
 import { BaseLayout } from './app/ui/BaseLayout';
 
 dayjs.locale('ru');

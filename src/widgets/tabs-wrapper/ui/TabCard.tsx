@@ -16,7 +16,6 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
   const { name, date, id } = tab;
 
   const checked = useIsTabIdInSelected(id);
-  console.log({ id, checked })
 
   const dispatch = useDispatch();
 
@@ -35,8 +34,6 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
           {selectMode && <Checkbox size="sm" checked={checked} onChange={handleChange} />}
         </Stack>
         <Typography level="h4">{getCustomDateFormatted(date)}</Typography>
-
-        <Typography level="title-sm">id: {id}</Typography>
       </Stack>
 
       <Button>Перейти</Button>

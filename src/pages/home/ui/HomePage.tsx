@@ -26,7 +26,7 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
   const { selectedTabsIds } = useSelector((state: RootState) => state.selectedTabsReducer);
   const { tabs } = useSelector((state: RootState) => state.tabsReducer)
 
-  const handleSelectSingleItemCheckedChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleCheckedChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { checked } = event.currentTarget;
 
     if (!checked) {
@@ -36,7 +36,7 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
     setChecked(checked)
   }
 
-  const selectAll = () => tabs.forEach(tab => {
+  const handleClickSelectAll = () => tabs.forEach(tab => {
     if (selectedTabsIds.includes(tab.id)) {
       return;
     }
@@ -69,9 +69,9 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
         alignItems: 'flex-start'
       }}>
         <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
-        <Checkbox label="Выбрать" checked={checked} onChange={handleSelectSingleItemCheckedChange} />
+        <Checkbox label="Выбрать" checked={checked} onChange={handleCheckedChange} />
 
-        {checked && <Button onClick={selectAll}>Выбрать все</Button>}
+        {checked && <Button onClick={handleClickSelectAll}>Выбрать все</Button>}
         {checked && <Button onClick={handleDelete} disabled={deleteButtonDisabled}>Удалить</Button>}
 
         <Input placeholder="Поиск табулатур" />

@@ -9,6 +9,21 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+
+  optimizeDeps: {
+    include: ['dayjs', 'dayjs/locale/ru']
+  },
+
+  server: {
+    // Добавьте для избежания проблем с кэшированием
+    hmr: {
+      overlay: true
+    },
+    watch: {
+      usePolling: true
+    }
+  },
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src/')
