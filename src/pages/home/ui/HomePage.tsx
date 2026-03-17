@@ -1,5 +1,5 @@
 import type { RootState } from "@/app/config";
-import { removeAll } from "@/features/selected-tabs-reducer";
+import { append, removeAll } from "@/features/selected-tabs-reducer";
 import { remove } from "@/features/tabs-reducer";
 import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { TabsWrapper } from "@/widgets/tabs-wrapper";
@@ -26,7 +26,7 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
   const { selectedTabsIds } = useSelector((state: RootState) => state.selectedTabsReducer);
   const { tabs } = useSelector((state: RootState) => state.tabsReducer)
 
-  const handleCheckedChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleSelectSingleItemCheckedChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { checked } = event.currentTarget;
 
     if (!checked) {
@@ -35,6 +35,14 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
 
     setChecked(checked)
   }
+
+  const selectAll = () => tabs.forEach(tab => {
+    if (selectedTabsIds.includes(tab.id)) {
+      return;
+    }
+
+    dispatch(append(tab.id))
+  })
 
   const handleDelete = () => {
     selectedTabsIds.forEach(id => {
@@ -56,10 +64,14 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
     <Stack spacing={2}>
       <Typography level="h2">Главная</Typography>
 
-      <Stack spacing={2}>
+      {/* TODO: не использовать sx, попробовать либо scss либо можно tailwind */}
+      <Stack spacing={2} sx={{
+        alignItems: 'flex-start'
+      }}>
         <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
-        <Checkbox label="Выбрать" checked={checked} onChange={handleCheckedChange} />
+        <Checkbox label="Выбрать" checked={checked} onChange={handleSelectSingleItemCheckedChange} />
 
+        {checked && <Button onClick={selectAll}>Выбрать все</Button>}
         {checked && <Button onClick={handleDelete} disabled={deleteButtonDisabled}>Удалить</Button>}
 
         <Input placeholder="Поиск табулатур" />

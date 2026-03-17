@@ -56,8 +56,11 @@ export const NewTabPage: FC = () => {
     saveTabsInStorage(tabs)
   }, [tabs])
 
+  // TODO: не использовать sx
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{
+      alignItems: 'flex-start'
+    }}>
       <Typography level="h2">Создание табулатуры</Typography>
 
       <form onSubmit={handleSubmit}>
