@@ -7,12 +7,23 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     react(),
-    babel({ presets: [reactCompilerPreset()] })
+    // babel({ presets: [reactCompilerPreset()] })
   ],
 
   optimizeDeps: {
-    include: ['dayjs', 'dayjs/locale/ru']
+    include: ['dayjs', 'dayjs/locale/ru'],
+    exclude: ['@coderline/alphatab']
   },
+
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
+  },
+
+  // assetsInclude: ['**/*.mjs'],
 
   server: {
     // Добавьте для избежания проблем с кэшированием

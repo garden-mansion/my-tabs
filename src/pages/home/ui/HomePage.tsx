@@ -10,13 +10,18 @@ import { useNavigate } from "react-router";
 
 interface HomePageProps {
   pathToNewTabPage: string;
+  pathToLoadTabPage: string;
 }
 
-export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
+export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage, pathToLoadTabPage }) => {
   const navigate = useNavigate();
 
   const handleCreateTabClick = () => {
     navigate(pathToNewTabPage)
+  }
+
+  const handleLoadTabClick = () => {
+    navigate(pathToLoadTabPage)
   }
 
   const [checked, setChecked] = useState<boolean>(false);
@@ -68,11 +73,20 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage }) => {
       <Stack spacing={2} sx={{
         alignItems: 'flex-start'
       }}>
-        <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
-        <Checkbox label="Выбрать" checked={checked} onChange={handleCheckedChange} />
+        <Stack direction={'row'} spacing={2}>
+          <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
 
-        {checked && <Button onClick={handleClickSelectAll}>Выбрать все</Button>}
-        {checked && <Button onClick={handleDelete} disabled={deleteButtonDisabled}>Удалить</Button>}
+          <Button onClick={handleLoadTabClick}>Загрузить табулатуру</Button>
+        </Stack>
+
+
+
+        <Stack direction={'row'} spacing={2} alignItems={'center'} sx={{ minHeight: '37px' }} className="asdf">
+          <Checkbox label="Выбрать" checked={checked} onChange={handleCheckedChange} />
+
+          {checked && <Button onClick={handleClickSelectAll}>Выбрать все</Button>}
+          {checked && <Button onClick={handleDelete} disabled={deleteButtonDisabled}>Удалить</Button>}
+        </Stack>
 
         <Input placeholder="Поиск табулатур" />
       </Stack>
