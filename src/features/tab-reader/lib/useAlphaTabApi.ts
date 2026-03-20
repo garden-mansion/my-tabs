@@ -1,7 +1,6 @@
 import { AlphaTabApi } from "@coderline/alphatab";
 import { useEffect, type RefObject } from "react";
 
-
 interface UseTabRenderParams {
   containerRef: RefObject<HTMLDivElement | null>;
   apiRef: RefObject<AlphaTabApi | null>;
