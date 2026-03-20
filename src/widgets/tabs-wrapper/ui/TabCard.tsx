@@ -2,13 +2,13 @@ import type { Tab } from "@/entities/tab";
 import { getCustomDateFormatted } from "@/shared/lib";
 import { Button, Card, Checkbox, Stack, Typography } from "@mui/joy";
 
-import { append, remove, useIsTabIdInSelected } from '@/features/selected-tabs-reducer'
+import { append, remove, useIsTabIdInSelected } from "@/features/selected-tabs-reducer";
 
 import { type ChangeEventHandler, type FC } from "react";
 import { useDispatch } from "react-redux";
 
 interface TabCardProps {
-  tab: Tab,
+  tab: Tab;
   selectMode?: boolean;
 }
 
@@ -23,7 +23,7 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
     const { checked } = event.currentTarget;
 
     dispatch(checked ? append(id) : remove(id));
-  }
+  };
 
   return (
     <Card variant="soft">
@@ -38,5 +38,5 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
 
       <Button>Перейти</Button>
     </Card>
-  )
-}
+  );
+};

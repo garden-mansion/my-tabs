@@ -4,5 +4,5 @@ export interface CustomDate {
   date: number;
 
   hour: number;
-  minute: number
+  minute: number;
 }

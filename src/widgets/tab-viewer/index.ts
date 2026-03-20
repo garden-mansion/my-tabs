@@ -1,1 +1,1 @@
-export { TabViewer } from './ui/TabViewer'
+export { TabViewer } from "./ui/TabViewer";

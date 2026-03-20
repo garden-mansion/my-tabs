@@ -1,2 +1,2 @@
 export { LoadTabPage } from "./ui/LoadTabPage";
-export { PATH } from './config/pageConfig'
+export { PATH } from "./config/pageConfig";

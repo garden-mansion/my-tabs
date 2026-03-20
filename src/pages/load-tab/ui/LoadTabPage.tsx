@@ -9,5 +9,5 @@ export const LoadTabPage: FC = () => {
 
       <TabViewer />
     </Stack>
-  )
-}
+  );
+};

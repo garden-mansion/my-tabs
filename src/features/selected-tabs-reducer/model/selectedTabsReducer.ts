@@ -6,10 +6,10 @@ interface SelectedTabsState {
 
 const selectedTabsInitialState: SelectedTabsState = {
   selectedTabsIds: [],
-}
+};
 
 const selectedTabsSlice = createSlice({
-  name: 'selected-tabs',
+  name: "selected-tabs",
   initialState: selectedTabsInitialState,
 
   reducers: {
@@ -19,30 +19,30 @@ const selectedTabsSlice = createSlice({
 
       return {
         ...state,
-        selectedTabsIds: [...selectedTabsIds, newId]
-      }
+        selectedTabsIds: [...selectedTabsIds, newId],
+      };
     },
 
     remove: (state, action: PayloadAction<string>) => {
       const { selectedTabsIds } = state;
       const { payload: removedId } = action;
 
-      const filteredTabsIds = selectedTabsIds.filter(id => id !== removedId);
+      const filteredTabsIds = selectedTabsIds.filter((id) => id !== removedId);
 
       return {
         ...state,
-        selectedTabsIds: filteredTabsIds
-      }
+        selectedTabsIds: filteredTabsIds,
+      };
     },
 
     removeAll: (state) => {
       return {
         ...state,
-        selectedTabsIds: []
-      }
-    }
-  }
-})
+        selectedTabsIds: [],
+      };
+    },
+  },
+});
 
 export const { append, remove, removeAll } = selectedTabsSlice.actions;
 export const selectedTabsReducer = selectedTabsSlice.reducer;

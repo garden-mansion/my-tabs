@@ -8,10 +8,9 @@ export default defineConfig({
     "eslint/no-unused-vars": "error",
     "eslint/no-alert": "error",
     "eslint/no-console": "warn",
-    "import/no-cycle": ["error", { maxDepth: 3, }],
+    "import/no-cycle": ["error", { maxDepth: 3 }],
     "typescript/no-floating-promises": "error",
-    "accessor-pairs": 'warn',
-    
+    "accessor-pairs": "warn",
   },
 
   plugins: ["import", "react", "react-perf"],
@@ -19,8 +18,15 @@ export default defineConfig({
   options: {
     typeAware: true,
     typeCheck: true,
-    reportUnusedDisableDirectives: 'warn',
+    reportUnusedDisableDirectives: "warn",
   },
 
-  ignorePatterns: ["dist/**", "coverage/**", "vendor/**", "test/snapshots/**", ".vscode/**", "./vite.config.js"]
+  ignorePatterns: [
+    "dist/**",
+    "coverage/**",
+    "vendor/**",
+    "test/snapshots/**",
+    ".vscode/**",
+    "./vite.config.js",
+  ],
 });

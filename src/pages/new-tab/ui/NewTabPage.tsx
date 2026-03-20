@@ -4,26 +4,34 @@ import { append } from "@/features/tabs-reducer";
 import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Stack, Typography } from "@mui/joy";
 import dayjs from "dayjs";
-import { useEffect, useState, type ChangeEventHandler, type FC, type SubmitEventHandler } from "react";
+import {
+  useEffect,
+  useState,
+  type ChangeEventHandler,
+  type FC,
+  type SubmitEventHandler,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { v4 } from 'uuid'
+import { v4 } from "uuid";
 
 export const NewTabPage: FC = () => {
-  const [tabName, setTabName] = useState<string>('');
+  const [tabName, setTabName] = useState<string>("");
   const [isTabNameError, setIsTabNameError] = useState<boolean>(false);
 
   const handleTabNameChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { value } = event.target;
     setTabName(value);
     setIsTabNameError(false);
-  }
+  };
 
   const [wasSave, setWasSave] = useState<boolean>(false);
 
-  const tabNameHelperText = isTabNameError ? 'Обязательное поле!' : 'Хорошее название поможет легче находить табулатуру'
+  const tabNameHelperText = isTabNameError
+    ? "Обязательное поле!"
+    : "Хорошее название поможет легче находить табулатуру";
 
-  const tabs = useSelector((state: RootState) => state.tabsReducer.tabs)
+  const tabs = useSelector((state: RootState) => state.tabsReducer.tabs);
   const dispatch = useDispatch();
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
@@ -46,22 +54,25 @@ export const NewTabPage: FC = () => {
 
         hour: now.hour(),
         minute: now.hour(),
-      }
-    }
+      },
+    };
 
     dispatch(append(newTab));
     setWasSave(true);
-  }
+  };
 
   useEffect(() => {
-    saveTabsInStorage(tabs)
-  }, [tabs])
+    saveTabsInStorage(tabs);
+  }, [tabs]);
 
   // TODO: не использовать sx
   return (
-    <Stack spacing={2} sx={{
-      alignItems: 'flex-start'
-    }}>
+    <Stack
+      spacing={2}
+      sx={{
+        alignItems: "flex-start",
+      }}
+    >
       <Typography level="h2">Создание табулатуры</Typography>
 
       <form onSubmit={handleSubmit}>
@@ -71,8 +82,10 @@ export const NewTabPage: FC = () => {
           <FormHelperText>{tabNameHelperText}</FormHelperText>
         </FormControl>
 
-        <Button disabled={wasSave} type="submit">Сохранить</Button>
+        <Button disabled={wasSave} type="submit">
+          Сохранить
+        </Button>
       </form>
     </Stack>
-  )
-}
+  );
+};

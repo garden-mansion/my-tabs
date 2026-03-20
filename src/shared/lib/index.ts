@@ -1,2 +1,2 @@
-export { isCustomDate } from './isCustomDate'
-export { getCustomDateFormatted } from './getCustomDateFormatted'
+export { isCustomDate } from "./isCustomDate";
+export { getCustomDateFormatted } from "./getCustomDateFormatted";

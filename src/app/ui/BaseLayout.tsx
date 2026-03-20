@@ -6,7 +6,11 @@ import { Link, Outlet } from "react-router";
 export const BaseLayout: FC = () => {
   const breadcrumbs = useBreadcrumbs();
 
-  const breadcrumbsItems = breadcrumbs.map((breadcrumb, index) => <Link key={index} to={breadcrumb.path}>{breadcrumb.name}</Link>)
+  const breadcrumbsItems = breadcrumbs.map((breadcrumb, index) => (
+    <Link key={index} to={breadcrumb.path}>
+      {breadcrumb.name}
+    </Link>
+  ));
 
   return (
     <Stack>
@@ -14,5 +18,5 @@ export const BaseLayout: FC = () => {
 
       <Outlet />
     </Stack>
-  )
-}
+  );
+};

@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,16 +10,16 @@ export default defineConfig({
   ],
 
   optimizeDeps: {
-    include: ['dayjs', 'dayjs/locale/ru'],
-    exclude: ['@coderline/alphatab']
+    include: ["dayjs", "dayjs/locale/ru"],
+    exclude: ["@coderline/alphatab"],
   },
 
   build: {
     rollupOptions: {
       output: {
-        manualChunks: undefined
-      }
-    }
+        manualChunks: undefined,
+      },
+    },
   },
 
   // assetsInclude: ['**/*.mjs'],
@@ -27,16 +27,16 @@ export default defineConfig({
   server: {
     // Добавьте для избежания проблем с кэшированием
     hmr: {
-      overlay: true
+      overlay: true,
     },
     watch: {
-      usePolling: true
-    }
+      usePolling: true,
+    },
   },
 
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src/')
-    }
-  }
-})
+      "@": path.resolve(__dirname, "./src/"),
+    },
+  },
+});

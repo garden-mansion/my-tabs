@@ -3,15 +3,15 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { getTabsFromStorage } from "../lib/getTabsFromStorage";
 
 interface TabsState {
-  tabs: Tab[]
+  tabs: Tab[];
 }
 
 const initialState: TabsState = {
   tabs: getTabsFromStorage(),
-}
+};
 
 const tabsSlice = createSlice({
-  name: 'tabs',
+  name: "tabs",
   initialState,
 
   reducers: {
@@ -21,17 +21,18 @@ const tabsSlice = createSlice({
 
       return {
         ...state,
-        tabs: [...tabs, newTab]
+        tabs: [...tabs, newTab],
       };
     },
 
     remove: (state, action: PayloadAction<string>) => {
       const { tabs } = state;
       const { payload: id } = action;
-      
-      const filteredTabs = tabs.filter(tab => tab.id !== id);
+
+      const filteredTabs = tabs.filter((tab) => tab.id !== id);
       return {
-        ...state, tabs: filteredTabs
+        ...state,
+        tabs: filteredTabs,
       };
     },
 
@@ -39,14 +40,14 @@ const tabsSlice = createSlice({
       const { tabs } = state;
       const { payload: substitutionTab } = action;
 
-      const newTabs = tabs.map(tab => tab.id === substitutionTab.id ? substitutionTab : tab);
+      const newTabs = tabs.map((tab) => (tab.id === substitutionTab.id ? substitutionTab : tab));
       return {
         ...state,
-        tabs: newTabs
-      }
-    }
+        tabs: newTabs,
+      };
+    },
   },
-})
+});
 
 export const { append, remove, replace } = tabsSlice.actions;
 export const tabsReducer = tabsSlice.reducer;
