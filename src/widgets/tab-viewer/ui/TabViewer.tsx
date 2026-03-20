@@ -1,7 +1,8 @@
 import { AlphaTabApi } from "@coderline/alphatab";
-import { Box, FormControl, FormHelperText, Input } from "@mui/joy";
+import { Box, FormControl, FormHelperText } from "@mui/joy";
 import { useEffect, useRef, useState, type FC } from "react";
 import { supportedFormats } from "../config/supportedFormats";
+import { UploadFileButton } from "@/shared/ui";
 
 export const TabViewer: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -70,15 +71,10 @@ export const TabViewer: FC = () => {
   return (
     <Box>
       <FormControl>
-        <Input
-          type="file"
+        <UploadFileButton
           placeholder="Загрузите ваш файл"
-          slotProps={{
-            input: {
-              accept: supportedFormats,
-              onChange: handleFileChange,
-            },
-          }}
+          handleFileChange={handleFileChange}
+          accept={supportedFormats}
         />
 
         <FormHelperText>Поддерживаемые форматы: {supportedFormats}</FormHelperText>
