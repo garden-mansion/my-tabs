@@ -13,7 +13,7 @@ interface TabCardProps {
 }
 
 export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
-  const { name, date, id } = tab;
+  const { title, subtitle, date, id } = tab;
 
   const checked = useIsTabIdInSelected(id);
 
@@ -29,11 +29,12 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
     <Card variant="soft">
       <Stack spacing={2}>
         <Stack>
-          <Typography level="h3">{name}</Typography>
+          <Typography level="h3">{title}</Typography>
+          <Typography level="h4">{subtitle}</Typography>
 
           {selectMode && <Checkbox size="sm" checked={checked} onChange={handleChange} />}
         </Stack>
-        <Typography level="h4">{getCustomDateFormatted(date)}</Typography>
+        <Typography level="title-sm">{getCustomDateFormatted(date)}</Typography>
       </Stack>
 
       <Button>Перейти</Button>

@@ -1,29 +1,41 @@
 import type { RootState } from "@/app/config";
 import type { Tab } from "@/entities/tab";
+import { isNotesTextValid } from "@/features/notes-text-validation";
 import { append } from "@/features/tabs-reducer";
 import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
-import { Button, FormControl, FormHelperText, FormLabel, Input, Stack, Typography } from "@mui/joy";
-import dayjs from "dayjs";
+import { getChangeEventHandlerWithState } from "@/shared/lib";
 import {
-  useEffect,
-  useState,
-  type ChangeEventHandler,
-  type FC,
-  type SubmitEventHandler,
-} from "react";
+  Button,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+  Stack,
+  Textarea,
+  Typography,
+} from "@mui/joy";
+import dayjs from "dayjs";
+import { useEffect, useState, type FC, type SubmitEventHandler } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { v4 } from "uuid";
 
 export const NewTabPage: FC = () => {
-  const [tabName, setTabName] = useState<string>("");
+  const [tabTitle, setTabTitle] = useState<string>("");
+  const [tabSubtitle, setTabSubtitle] = useState<string>("");
+  const [tabNotesText, setTabNotesText] = useState<string>("");
   const [isTabNameError, setIsTabNameError] = useState<boolean>(false);
+  const [isTabNotesTextError, setIsTabNotesTextError] = useState<boolean>(false);
+  const [tabNotesTextHelper, setTabNotesTextHelper] = useState<string>("");
 
-  const handleTabNameChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { value } = event.target;
-    setTabName(value);
-    setIsTabNameError(false);
-  };
+  const handleTabTitleChange = getChangeEventHandlerWithState(setTabTitle, () =>
+    setIsTabNameError(false),
+  );
+  const handleTabSubtitleChange = getChangeEventHandlerWithState(setTabSubtitle);
+  const handleTabNotesTextChange = getChangeEventHandlerWithState(setTabNotesText, () => {
+    setIsTabNotesTextError(false);
+    setTabNotesTextHelper("");
+  });
 
   const [wasSave, setWasSave] = useState<boolean>(false);
 
@@ -37,15 +49,29 @@ export const NewTabPage: FC = () => {
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (!tabName) {
+    if (!tabTitle) {
       setIsTabNameError(true);
+      return;
+    }
+
+    if (!tabNotesText) {
+      setIsTabNotesTextError(true);
+      setTabNotesTextHelper("Обязательное поле");
+      return;
+    }
+
+    if (!isNotesTextValid(tabNotesText)) {
+      setIsTabNotesTextError(true);
+      setTabNotesTextHelper("Некорректный синтаксис!");
       return;
     }
 
     const now = dayjs();
 
     const newTab: Tab = {
-      name: tabName,
+      title: tabTitle,
+      subtitle: tabSubtitle,
+      notesText: tabNotesText,
       id: v4(),
       date: {
         year: now.year(),
@@ -78,8 +104,20 @@ export const NewTabPage: FC = () => {
       <form onSubmit={handleSubmit}>
         <FormControl error={isTabNameError} disabled={wasSave}>
           <FormLabel>Название табулатуры</FormLabel>
-          <Input placeholder="Новая табулатура" value={tabName} onChange={handleTabNameChange} />
+          <Input placeholder="Новая табулатура" value={tabTitle} onChange={handleTabTitleChange} />
           <FormHelperText>{tabNameHelperText}</FormHelperText>
+        </FormControl>
+
+        <FormControl disabled={wasSave}>
+          <FormLabel>Подзаголовок (опционально)</FormLabel>
+          <Input placeholder="..." value={tabSubtitle} onChange={handleTabSubtitleChange} />
+          <FormHelperText>Можете указать автора</FormHelperText>
+        </FormControl>
+
+        <FormControl error={isTabNotesTextError} disabled={wasSave}>
+          <FormLabel>Текстовая табулатура</FormLabel>
+          <Textarea value={tabNotesText} onChange={handleTabNotesTextChange} />
+          <FormHelperText>{tabNotesTextHelper}</FormHelperText>
         </FormControl>
 
         <Button disabled={wasSave} type="submit">

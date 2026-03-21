@@ -13,6 +13,9 @@ export class Note {
   fret: number;
   string_: number;
 
+  private static NOTE_PATTERN = /^\d+(\.\d+)?$/;
+  private static noteRegex = new RegExp(this.NOTE_PATTERN);
+
   constructor({ fret, string_ }: NoteConstructorParams) {
     this.id = v4();
     this.fret = fret;
@@ -23,15 +26,15 @@ export class Note {
     return `${this.fret}.${this.string_}`;
   }
 
-  private static mapNoteToString(note: Note): string {
-    return note.toString();
-  }
-
   private static mapNotesToString(notes: Note[]): string[] {
-    return notes.map((note) => Note.mapNoteToString(note));
+    return notes.map((note) => note.toString());
   }
 
   static getNotesString(notes: Note[]) {
     return Note.mapNotesToString(notes).join(" ");
+  }
+
+  static isValidStringNote(value: string) {
+    return Note.noteRegex.test(value);
   }
 }
