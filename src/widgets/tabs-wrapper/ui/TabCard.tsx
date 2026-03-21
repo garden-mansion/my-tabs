@@ -6,13 +6,16 @@ import { append, remove, useIsTabIdInSelected } from "@/features/selected-tabs-r
 
 import { type ChangeEventHandler, type FC } from "react";
 import { useDispatch } from "react-redux";
+import { setCurrentTab } from "@/features/current-tab-reducer";
+import { useNavigate } from "react-router";
 
 interface TabCardProps {
   tab: Tab;
   selectMode?: boolean;
+  pathToTabPage: string;
 }
 
-export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
+export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPage }) => {
   const { title, subtitle, date, id } = tab;
 
   const checked = useIsTabIdInSelected(id);
@@ -23,6 +26,14 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
     const { checked } = event.currentTarget;
 
     dispatch(checked ? append(id) : remove(id));
+  };
+
+  const navigate = useNavigate();
+
+  const handleGoToTabClick = async () => {
+    dispatch(setCurrentTab(tab));
+
+    await navigate(pathToTabPage);
   };
 
   return (
@@ -37,7 +48,7 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false }) => {
         <Typography level="title-sm">{getCustomDateFormatted(date)}</Typography>
       </Stack>
 
-      <Button>Перейти</Button>
+      <Button onClick={handleGoToTabClick}>Перейти</Button>
     </Card>
   );
 };

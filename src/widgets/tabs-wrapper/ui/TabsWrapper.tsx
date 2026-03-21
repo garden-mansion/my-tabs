@@ -7,9 +7,10 @@ import type { RootState } from "@/app/config";
 
 interface TabsWrapperProps {
   selectMode?: boolean;
+  pathToTabPage: string;
 }
 
-export const TabsWrapper: FC<TabsWrapperProps> = ({ selectMode = false }) => {
+export const TabsWrapper: FC<TabsWrapperProps> = ({ selectMode = false, pathToTabPage }) => {
   const tabs = useSelector((state: RootState) => state.tabsReducer.tabs);
 
   if (!tabs.length) {
@@ -20,7 +21,7 @@ export const TabsWrapper: FC<TabsWrapperProps> = ({ selectMode = false }) => {
     <Grid container columnSpacing={2} rowSpacing={2} sx={{ flexGrow: 1 }}>
       {tabs.map((tab) => (
         <Grid key={tab.id}>
-          <TabCard selectMode={selectMode} tab={tab} />
+          <TabCard pathToTabPage={pathToTabPage} selectMode={selectMode} tab={tab} />
         </Grid>
       ))}
     </Grid>

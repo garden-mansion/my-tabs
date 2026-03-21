@@ -11,17 +11,22 @@ import { useNavigate } from "react-router";
 interface HomePageProps {
   pathToNewTabPage: string;
   pathToLoadTabPage: string;
+  pathToTabPage: string;
 }
 
-export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage, pathToLoadTabPage }) => {
+export const HomePage: FC<HomePageProps> = ({
+  pathToNewTabPage,
+  pathToLoadTabPage,
+  pathToTabPage,
+}) => {
   const navigate = useNavigate();
 
-  const handleCreateTabClick = () => {
-    navigate(pathToNewTabPage);
+  const handleCreateTabClick = async () => {
+    await navigate(pathToNewTabPage);
   };
 
-  const handleLoadTabClick = () => {
-    navigate(pathToLoadTabPage);
+  const handleLoadTabClick = async () => {
+    await navigate(pathToLoadTabPage);
   };
 
   const [checked, setChecked] = useState<boolean>(false);
@@ -106,7 +111,7 @@ export const HomePage: FC<HomePageProps> = ({ pathToNewTabPage, pathToLoadTabPag
         <Input placeholder="Поиск табулатур" />
       </Stack>
 
-      <TabsWrapper selectMode={checked} />
+      <TabsWrapper pathToTabPage={pathToTabPage} selectMode={checked} />
     </Stack>
   );
 };

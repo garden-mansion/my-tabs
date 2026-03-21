@@ -11,7 +11,8 @@ import { store } from "./app/config";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 
-import { BaseLayout } from "./app/ui/BaseLayout";
+import { BaseLayout } from "@/app/ui/BaseLayout";
+import { TAB_PAGE_PATH, TabPage } from "@/pages/tab-page";
 
 dayjs.locale("ru");
 
@@ -22,7 +23,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage pathToNewTabPage={NEW_TAB_PATH} pathToLoadTabPage={LOAD_TAB_PATH} />,
+        element: (
+          <HomePage
+            pathToNewTabPage={NEW_TAB_PATH}
+            pathToLoadTabPage={LOAD_TAB_PATH}
+            pathToTabPage={TAB_PAGE_PATH}
+          />
+        ),
       },
 
       {
@@ -33,6 +40,11 @@ const router = createBrowserRouter([
       {
         path: LOAD_TAB_PATH,
         element: <LoadTabPage />,
+      },
+
+      {
+        path: TAB_PAGE_PATH,
+        element: <TabPage />,
       },
     ],
   },

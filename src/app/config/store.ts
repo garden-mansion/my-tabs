@@ -1,3 +1,4 @@
+import { currentTabReducer } from "@/features/current-tab-reducer";
 import { selectedTabsReducer } from "@/features/selected-tabs-reducer";
 import { tabsReducer } from "@/features/tabs-reducer";
 import { configureStore } from "@reduxjs/toolkit";
@@ -6,6 +7,7 @@ export const store = configureStore({
   reducer: {
     tabsReducer,
     selectedTabsReducer,
+    currentTabReducer,
   },
 });
 
