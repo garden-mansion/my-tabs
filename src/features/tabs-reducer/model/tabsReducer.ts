@@ -15,7 +15,7 @@ const tabsSlice = createSlice({
   initialState,
 
   reducers: {
-    append: (state, action: PayloadAction<Tab>) => {
+    appendTab: (state, action: PayloadAction<Tab>) => {
       const { tabs } = state;
       const { payload: newTab } = action;
 
@@ -25,7 +25,7 @@ const tabsSlice = createSlice({
       };
     },
 
-    remove: (state, action: PayloadAction<string>) => {
+    removeTab: (state, action: PayloadAction<string>) => {
       const { tabs } = state;
       const { payload: id } = action;
 
@@ -36,7 +36,7 @@ const tabsSlice = createSlice({
       };
     },
 
-    replace: (state, action: PayloadAction<Tab>) => {
+    replaceTab: (state, action: PayloadAction<Tab>) => {
       const { tabs } = state;
       const { payload: substitutionTab } = action;
 
@@ -49,5 +49,5 @@ const tabsSlice = createSlice({
   },
 });
 
-export const { append, remove, replace } = tabsSlice.actions;
+export const { appendTab, removeTab, replaceTab } = tabsSlice.actions;
 export const tabsReducer = tabsSlice.reducer;

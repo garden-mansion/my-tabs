@@ -2,7 +2,11 @@ import type { Tab } from "@/entities/tab";
 import { getCustomDateFormatted } from "@/shared/lib";
 import { Button, Card, Stack, Typography } from "@mui/joy";
 
-import { append, remove, useIsTabIdInSelected } from "@/features/selected-tabs-reducer";
+import {
+  appendSelectedTabId,
+  removeSelectedTabId,
+  useIsTabIdInSelected,
+} from "@/features/selected-tabs-reducer";
 
 import { useMemo, type FC } from "react";
 import { useDispatch } from "react-redux";
@@ -26,7 +30,7 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(checked ? remove(id) : append(id));
+    dispatch(checked ? removeSelectedTabId(id) : appendSelectedTabId(id));
   };
 
   const navigate = useNavigate();
@@ -66,8 +70,6 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
             <Typography level="body-lg" noWrap>
               {title}
             </Typography>
-
-            {/* {selectMode && <Checkbox size="sm" checked={checked} onChange={handleChange} />} */}
           </Stack>
 
           <Typography level="body-md">{subtitle}</Typography>

@@ -1,7 +1,10 @@
 import type { RootState } from "@/app/config";
-import { append, removeAll } from "@/features/selected-tabs-reducer";
-import { remove } from "@/features/tabs-reducer";
-import { remove as removeSelectedTabId } from "@/features/selected-tabs-reducer";
+import {
+  appendSelectedTabId,
+  removeSelectedTabId,
+  removeAllSelectedTabsIds,
+} from "@/features/selected-tabs-reducer";
+import { removeTab } from "@/features/tabs-reducer";
 import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { TabsWrapper } from "@/widgets/tabs-wrapper";
 import { Button, Checkbox, Input, Stack, Typography } from "@mui/joy";
@@ -41,7 +44,7 @@ export const HomePage: FC<HomePageProps> = ({
     const { checked } = event.currentTarget;
 
     if (!checked) {
-      dispatch(removeAll());
+      dispatch(removeAllSelectedTabsIds());
     }
 
     setChecked(checked);
@@ -53,12 +56,12 @@ export const HomePage: FC<HomePageProps> = ({
         return;
       }
 
-      dispatch(append(tab.id));
+      dispatch(appendSelectedTabId(tab.id));
     });
 
   const handleDelete = () => {
     selectedTabsIds.forEach((id) => {
-      dispatch(remove(id));
+      dispatch(removeTab(id));
       dispatch(removeSelectedTabId(id));
     });
   };
@@ -72,13 +75,13 @@ export const HomePage: FC<HomePageProps> = ({
     saveTabsInStorage(tabs);
 
     if (!tabs.length) {
-      dispatch(removeAll());
+      dispatch(removeAllSelectedTabsIds());
     }
   }, [tabs]);
 
   useEffect(() => {
     return () => {
-      dispatch(removeAll());
+      dispatch(removeAllSelectedTabsIds());
     };
   }, []);
 

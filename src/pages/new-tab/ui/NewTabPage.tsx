@@ -1,7 +1,7 @@
 import type { RootState } from "@/app/config";
 import type { Tab } from "@/entities/tab";
 import { isNotesTextValid } from "@/features/notes-text-validation";
-import { append } from "@/features/tabs-reducer";
+import { appendTab } from "@/features/tabs-reducer";
 import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { getChangeEventHandlerWithState } from "@/shared/lib";
 import {
@@ -85,7 +85,7 @@ export const NewTabPage: FC = () => {
       },
     };
 
-    dispatch(append(newTab));
+    dispatch(appendTab(newTab));
     setWasSave(true);
   };
 

@@ -13,7 +13,7 @@ const selectedTabsSlice = createSlice({
   initialState: selectedTabsInitialState,
 
   reducers: {
-    append: (state, action: PayloadAction<string>) => {
+    appendSelectedTabId: (state, action: PayloadAction<string>) => {
       const { selectedTabsIds } = state;
       const { payload: newId } = action;
 
@@ -23,7 +23,7 @@ const selectedTabsSlice = createSlice({
       };
     },
 
-    remove: (state, action: PayloadAction<string>) => {
+    removeSelectedTabId: (state, action: PayloadAction<string>) => {
       const { selectedTabsIds } = state;
       const { payload: removedId } = action;
 
@@ -35,7 +35,7 @@ const selectedTabsSlice = createSlice({
       };
     },
 
-    removeAll: (state) => {
+    removeAllSelectedTabsIds: (state) => {
       return {
         ...state,
         selectedTabsIds: [],
@@ -44,5 +44,6 @@ const selectedTabsSlice = createSlice({
   },
 });
 
-export const { append, remove, removeAll } = selectedTabsSlice.actions;
+export const { appendSelectedTabId, removeSelectedTabId, removeAllSelectedTabsIds } =
+  selectedTabsSlice.actions;
 export const selectedTabsReducer = selectedTabsSlice.reducer;
