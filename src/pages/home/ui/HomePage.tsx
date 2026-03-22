@@ -1,13 +1,12 @@
 import { useNavigateToPage } from '@/shared/lib';
-import { MyModal } from '@/shared/ui';
 import { TabsWrapper } from '@/widgets/tabs-wrapper';
-import { Button, Checkbox, Input, Stack, Typography } from '@mui/joy';
+import { Button, Input, Stack, Typography } from '@mui/joy';
 import { useState, type FC } from 'react';
 import { useHandleCheckedChange } from '../lib/useHandleCheckedChange';
-import { useHandleSelectAll } from '../lib/useHandleSelectAll';
 import { useHandleConfirm } from '../lib/useHandleConfirm';
-import { useIsDeleteButtonDisabled } from '../lib/useIsDeleteButtonDisabled';
 import { useWatchTabsChange } from '../lib/useWatchTabsChange';
+import { SelectTabsPanel } from './SelectTabsPanel';
+import { DeleteTabsModal } from './DeleteTabsModal';
 
 interface HomePageProps {
   pathToNewTabPage: string;
@@ -29,8 +28,6 @@ export const HomePage: FC<HomePageProps> = ({
     setChecked(checkedValue),
   );
 
-  const handleClickSelectAll = useHandleSelectAll();
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => setIsModalOpen(true);
@@ -40,8 +37,6 @@ export const HomePage: FC<HomePageProps> = ({
     setIsModalOpen(false);
     setChecked(false);
   });
-
-  const deleteButtonDisabled = useIsDeleteButtonDisabled();
 
   useWatchTabsChange();
 
@@ -58,47 +53,22 @@ export const HomePage: FC<HomePageProps> = ({
       >
         <Stack direction={'row'} spacing={2}>
           <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
-
           <Button onClick={handleLoadTabClick}>Загрузить табулатуру</Button>
         </Stack>
 
-        <Stack
-          direction={'row'}
-          spacing={2}
-          alignItems={'center'}
-          sx={{ minHeight: '37px' }}
-        >
-          <Checkbox
-            label="Выбрать"
-            checked={checked}
-            onChange={handleCheckedChange}
-          />
-
-          {checked && (
-            <Button onClick={handleClickSelectAll}>Выбрать все</Button>
-          )}
-          {checked && (
-            <Button
-              onClick={handleModalOpen}
-              disabled={deleteButtonDisabled}
-              color="danger"
-            >
-              Удалить
-            </Button>
-          )}
-        </Stack>
+        <SelectTabsPanel
+          checked={checked}
+          handleCheckedChange={handleCheckedChange}
+          handleModalOpen={handleModalOpen}
+        />
 
         <Input placeholder="Поиск табулатур" fullWidth />
       </Stack>
 
       <TabsWrapper pathToTabPage={pathToTabPage} selectMode={checked} />
 
-      <MyModal
-        isOpen={isModalOpen}
-        title="Подтвердите удаление"
-        content="Вы уверены что хотите удалить выбранные табулатуры?"
-        confirmTitle="Удалить"
-        confirmColor="danger"
+      <DeleteTabsModal
+        isModalOpen={isModalOpen}
         handleClose={handleClose}
         handleConfirm={handleConfirm}
       />
