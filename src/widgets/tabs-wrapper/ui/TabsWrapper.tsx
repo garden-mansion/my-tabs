@@ -19,7 +19,7 @@ export const TabsWrapper: FC<TabsWrapperProps> = ({ selectMode = false, pathToTa
   return (
     <Grid container spacing={2} sx={{ flexGrow: 1 }}>
       {tabs.map((tab) => (
-        <Grid>
+        <Grid key={tab.id}>
           <TabCard pathToTabPage={pathToTabPage} selectMode={selectMode} tab={tab} />
         </Grid>
       ))}
