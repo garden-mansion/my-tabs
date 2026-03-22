@@ -1,23 +1,13 @@
-import type { RootState } from '@/app/config';
-import {
-  appendSelectedTabId,
-  removeSelectedTabId,
-  removeAllSelectedTabsIds,
-} from '@/features/selected-tabs-reducer';
-import { removeTab } from '@/features/tabs-reducer';
-import { saveTabsInStorage } from '@/features/tabs-reducer/lib/saveTabsInStorage';
+import { useNavigateToPage } from '@/shared/lib';
 import { MyModal } from '@/shared/ui';
 import { TabsWrapper } from '@/widgets/tabs-wrapper';
 import { Button, Checkbox, Input, Stack, Typography } from '@mui/joy';
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type ChangeEventHandler,
-  type FC,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useState, type FC } from 'react';
+import { useHandleCheckedChange } from '../lib/useHandleCheckedChange';
+import { useHandleSelectAll } from '../lib/useHandleSelectAll';
+import { useHandleConfirm } from '../lib/useHandleConfirm';
+import { useIsDeleteButtonDisabled } from '../lib/useIsDeleteButtonDisabled';
+import { useWatchTabsChange } from '../lib/useWatchTabsChange';
 
 interface HomePageProps {
   pathToNewTabPage: string;
@@ -30,77 +20,30 @@ export const HomePage: FC<HomePageProps> = ({
   pathToLoadTabPage,
   pathToTabPage,
 }) => {
-  const navigate = useNavigate();
-
-  const handleCreateTabClick = async () => {
-    await navigate(pathToNewTabPage);
-  };
-
-  const handleLoadTabClick = async () => {
-    await navigate(pathToLoadTabPage);
-  };
+  const handleCreateTabClick = useNavigateToPage(pathToNewTabPage);
+  const handleLoadTabClick = useNavigateToPage(pathToLoadTabPage);
 
   const [checked, setChecked] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-
-  const { selectedTabsIds } = useSelector(
-    (state: RootState) => state.selectedTabsReducer,
+  const handleCheckedChange = useHandleCheckedChange((checkedValue) =>
+    setChecked(checkedValue),
   );
-  const { tabs } = useSelector((state: RootState) => state.tabsReducer);
 
-  const handleCheckedChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { checked } = event.currentTarget;
-
-    if (!checked) {
-      dispatch(removeAllSelectedTabsIds());
-    }
-
-    setChecked(checked);
-  };
-
-  const handleClickSelectAll = () =>
-    tabs.forEach((tab) => {
-      if (selectedTabsIds.includes(tab.id)) {
-        return;
-      }
-
-      dispatch(appendSelectedTabId(tab.id));
-    });
+  const handleClickSelectAll = useHandleSelectAll();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleClose = () => setIsModalOpen(false);
 
-  const handleConfirm = () => {
-    selectedTabsIds.forEach((id) => {
-      dispatch(removeTab(id));
-      dispatch(removeSelectedTabId(id));
-    });
-
+  const handleConfirm = useHandleConfirm(() => {
     setIsModalOpen(false);
     setChecked(false);
-  };
+  });
 
-  const deleteButtonDisabled = useMemo<boolean>(
-    () => selectedTabsIds.length === 0,
-    [selectedTabsIds],
-  );
+  const deleteButtonDisabled = useIsDeleteButtonDisabled();
 
-  useEffect(() => {
-    saveTabsInStorage(tabs);
-
-    if (!tabs.length) {
-      dispatch(removeAllSelectedTabsIds());
-    }
-  }, [tabs]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(removeAllSelectedTabsIds());
-    };
-  }, []);
+  useWatchTabsChange();
 
   return (
     <Stack spacing={2}>
