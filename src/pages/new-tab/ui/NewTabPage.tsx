@@ -30,22 +30,13 @@ export const NewTabPage: FC = () => {
   const [isTabNotesTextError, setIsTabNotesTextError] = useState<boolean>(false);
   const [tabNotesTextHelper, setTabNotesTextHelper] = useState<string>("");
 
-  const handleTabTitleChange = getChangeEventHandlerWithState({
-    setState: setTabTitle,
-    effect: () => setIsTabNameError(false),
-    eventValueExtractor: (e) => e.currentTarget.value,
-  });
-  const handleTabSubtitleChange = getChangeEventHandlerWithState({
-    setState: setTabSubtitle,
-    eventValueExtractor: (e) => e.currentTarget.value,
-  });
-  const handleTabNotesTextChange = getChangeEventHandlerWithState({
-    setState: setTabNotesText,
-    effect: () => {
-      setIsTabNotesTextError(false);
-      setTabNotesTextHelper("");
-    },
-    eventValueExtractor: (e) => e.currentTarget.value,
+  const handleTabTitleChange = getChangeEventHandlerWithState(setTabTitle, () =>
+    setIsTabNameError(false),
+  );
+  const handleTabSubtitleChange = getChangeEventHandlerWithState(setTabSubtitle);
+  const handleTabNotesTextChange = getChangeEventHandlerWithState(setTabNotesText, () => {
+    setIsTabNotesTextError(false);
+    setTabNotesTextHelper("");
   });
 
   const [wasSave, setWasSave] = useState<boolean>(false);
