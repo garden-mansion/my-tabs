@@ -6,6 +6,7 @@ import {
 } from '@/features/selected-tabs-reducer';
 import { removeTab } from '@/features/tabs-reducer';
 import { saveTabsInStorage } from '@/features/tabs-reducer/lib/saveTabsInStorage';
+import { MyModal } from '@/shared/ui';
 import { TabsWrapper } from '@/widgets/tabs-wrapper';
 import { Button, Checkbox, Input, Stack, Typography } from '@mui/joy';
 import {
@@ -67,11 +68,19 @@ export const HomePage: FC<HomePageProps> = ({
       dispatch(appendSelectedTabId(tab.id));
     });
 
-  const handleDelete = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleClose = () => setIsModalOpen(false);
+
+  const handleConfirm = () => {
     selectedTabsIds.forEach((id) => {
       dispatch(removeTab(id));
       dispatch(removeSelectedTabId(id));
     });
+
+    setIsModalOpen(false);
+    setChecked(false);
   };
 
   const deleteButtonDisabled = useMemo<boolean>(
@@ -127,7 +136,7 @@ export const HomePage: FC<HomePageProps> = ({
           )}
           {checked && (
             <Button
-              onClick={handleDelete}
+              onClick={handleModalOpen}
               disabled={deleteButtonDisabled}
               color="danger"
             >
@@ -140,6 +149,16 @@ export const HomePage: FC<HomePageProps> = ({
       </Stack>
 
       <TabsWrapper pathToTabPage={pathToTabPage} selectMode={checked} />
+
+      <MyModal
+        isOpen={isModalOpen}
+        title="Подтвердите удаление"
+        content="Вы уверены что хотите удалить выбранные табулатуры?"
+        confirmTitle="Удалить"
+        confirmColor="danger"
+        handleClose={handleClose}
+        handleConfirm={handleConfirm}
+      />
     </Stack>
   );
 };
