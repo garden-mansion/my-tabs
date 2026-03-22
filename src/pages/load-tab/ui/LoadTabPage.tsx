@@ -1,9 +1,9 @@
-import { useAlphaTabApi, useTabReader } from "@/features/tab-reader";
-import { UploadFileButton } from "@/shared/ui";
-import { supportedFormats } from "@/pages/load-tab/config/supportedFormats";
-import type { AlphaTabApi } from "@coderline/alphatab";
-import { Box, FormControl, FormHelperText, Stack, Typography } from "@mui/joy";
-import { useRef, useState, type FC } from "react";
+import { useAlphaTabApi, useTabReader } from '@/features/tab-reader';
+import { UploadFileButton } from '@/shared/ui';
+import { supportedFormats } from '@/pages/load-tab/config/supportedFormats';
+import type { AlphaTabApi } from '@coderline/alphatab';
+import { Box, FormControl, FormHelperText, Stack, Typography } from '@mui/joy';
+import { useRef, useState, type FC } from 'react';
 
 export const LoadTabPage: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,7 +34,9 @@ export const LoadTabPage: FC = () => {
             accept={supportedFormats}
           />
 
-          <FormHelperText>Поддерживаемые форматы: {supportedFormats}</FormHelperText>
+          <FormHelperText>
+            Поддерживаемые форматы: {supportedFormats}
+          </FormHelperText>
         </FormControl>
         <Box ref={containerRef} />
       </Box>

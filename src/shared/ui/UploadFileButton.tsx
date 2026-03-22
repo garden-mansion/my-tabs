@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import { Button, SvgIcon } from "@mui/joy";
-import type { ChangeEvent, FC } from "react";
+import styled from '@emotion/styled';
+import { Button, SvgIcon } from '@mui/joy';
+import type { ChangeEvent, FC } from 'react';
 
-const VisuallyHiddenInput = styled("input")`
+const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;

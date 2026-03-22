@@ -1,1 +1,1 @@
-export { UploadFileButton } from "./UploadFileButton";
+export { UploadFileButton } from './UploadFileButton';

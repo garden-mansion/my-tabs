@@ -1,4 +1,4 @@
-@use "./variables.module.scss" as vars;
+@use './variables.module.scss' as vars;
 
 :root .dark-button {
   background-color: vars.$button-bg-dark !important;

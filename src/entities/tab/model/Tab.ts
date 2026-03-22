@@ -1,4 +1,4 @@
-import type { CustomDate } from "@/shared/model";
+import type { CustomDate } from '@/shared/model';
 
 export interface Tab {
   id: string;

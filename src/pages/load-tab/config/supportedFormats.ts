@@ -1,1 +1,1 @@
-export const supportedFormats = ".gp,.gp3,.gp4,.gp5,.gpx,.gp7";
+export const supportedFormats = '.gp,.gp3,.gp4,.gp5,.gpx,.gp7';

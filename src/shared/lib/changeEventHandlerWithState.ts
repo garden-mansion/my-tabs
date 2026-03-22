@@ -1,4 +1,8 @@
-import type { Dispatch, ChangeEvent as NativeChangeEvent, SetStateAction } from "react";
+import type {
+  Dispatch,
+  ChangeEvent as NativeChangeEvent,
+  SetStateAction,
+} from 'react';
 
 type ChangeEvent = NativeChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 

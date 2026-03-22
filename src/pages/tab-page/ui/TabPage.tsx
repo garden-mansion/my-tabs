@@ -1,11 +1,21 @@
-import type { RootState } from "@/app/config";
-import { getCustomDateFormatted } from "@/shared/lib";
-import { Stack, Tab, TabList, TabPanel, Tabs, Textarea, Typography } from "@mui/joy";
-import type { FC } from "react";
-import { useSelector } from "react-redux";
+import type { RootState } from '@/app/config';
+import { getCustomDateFormatted } from '@/shared/lib';
+import {
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  Textarea,
+  Typography,
+} from '@mui/joy';
+import type { FC } from 'react';
+import { useSelector } from 'react-redux';
 
 export const TabPage: FC = () => {
-  const { currentTab } = useSelector((root: RootState) => root.currentTabReducer);
+  const { currentTab } = useSelector(
+    (root: RootState) => root.currentTabReducer,
+  );
 
   if (!currentTab) {
     return;

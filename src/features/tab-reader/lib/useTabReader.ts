@@ -1,5 +1,5 @@
-import { AlphaTabApi } from "@coderline/alphatab";
-import { useEffect, type RefObject } from "react";
+import { AlphaTabApi } from '@coderline/alphatab';
+import { useEffect, type RefObject } from 'react';
 
 interface UseTabReaderParams {
   file: File | null;

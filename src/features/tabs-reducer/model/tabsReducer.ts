@@ -1,6 +1,6 @@
-import { type Tab } from "@/entities/tab";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { getTabsFromStorage } from "../lib/getTabsFromStorage";
+import { type Tab } from '@/entities/tab';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { getTabsFromStorage } from '../lib/getTabsFromStorage';
 
 interface TabsState {
   tabs: Tab[];
@@ -11,7 +11,7 @@ const initialState: TabsState = {
 };
 
 const tabsSlice = createSlice({
-  name: "tabs",
+  name: 'tabs',
   initialState,
 
   reducers: {
@@ -40,7 +40,9 @@ const tabsSlice = createSlice({
       const { tabs } = state;
       const { payload: substitutionTab } = action;
 
-      const newTabs = tabs.map((tab) => (tab.id === substitutionTab.id ? substitutionTab : tab));
+      const newTabs = tabs.map((tab) =>
+        tab.id === substitutionTab.id ? substitutionTab : tab,
+      );
       return {
         ...state,
         tabs: newTabs,

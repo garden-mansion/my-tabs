@@ -1,20 +1,20 @@
-import type { Tab } from "@/entities/tab";
-import { getCustomDateFormatted } from "@/shared/lib";
-import { Button, Card, Stack, Typography } from "@mui/joy";
+import type { Tab } from '@/entities/tab';
+import { getCustomDateFormatted } from '@/shared/lib';
+import { Button, Card, Stack, Typography } from '@mui/joy';
 
 import {
   appendSelectedTabId,
   removeSelectedTabId,
   useIsTabIdInSelected,
-} from "@/features/selected-tabs-reducer";
+} from '@/features/selected-tabs-reducer';
 
-import { useMemo, type FC } from "react";
-import { useDispatch } from "react-redux";
-import { setCurrentTab } from "@/features/current-tab-reducer";
-import { useNavigate } from "react-router";
+import { useMemo, type FC } from 'react';
+import { useDispatch } from 'react-redux';
+import { setCurrentTab } from '@/features/current-tab-reducer';
+import { useNavigate } from 'react-router';
 
-import styles from "../scss/TabCard.module.scss";
-import type { SxProps } from "@mui/joy/styles/types";
+import styles from '../scss/TabCard.module.scss';
+import type { SxProps } from '@mui/joy/styles/types';
 
 interface TabCardProps {
   tab: Tab;
@@ -22,7 +22,11 @@ interface TabCardProps {
   pathToTabPage: string;
 }
 
-export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPage }) => {
+export const TabCard: FC<TabCardProps> = ({
+  tab,
+  selectMode = false,
+  pathToTabPage,
+}) => {
   const { title, subtitle, date, id } = tab;
 
   const checked = useIsTabIdInSelected(id);
@@ -48,7 +52,7 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
 
     if (checked) {
       return {
-        borderColor: "blue",
+        borderColor: 'blue',
       };
     }
 
@@ -60,13 +64,17 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
   return (
     <Card
       variant="outlined"
-      sx={{ justifyContent: "space-between", ...checkedStyle }}
-      className={styles["tab-card"]}
+      sx={{ justifyContent: 'space-between', ...checkedStyle }}
+      className={styles['tab-card']}
       onClick={handleClick}
     >
       <Stack spacing={2}>
         <Stack>
-          <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+          <Stack
+            direction={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+          >
             <Typography level="body-lg" noWrap>
               {title}
             </Typography>
@@ -77,7 +85,11 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
         <Typography level="body-sm">{getCustomDateFormatted(date)}</Typography>
       </Stack>
 
-      <Button sx={{ alignSelf: "flex-end" }} onClick={handleGoToTabClick} variant="outlined">
+      <Button
+        sx={{ alignSelf: 'flex-end' }}
+        onClick={handleGoToTabClick}
+        variant="outlined"
+      >
         Перейти
       </Button>
     </Card>

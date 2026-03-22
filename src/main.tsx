@@ -1,25 +1,25 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux';
 
-import { HomePage } from "@/pages/home";
-import { PATH as NEW_TAB_PATH, NewTabPage } from "@/pages/new-tab";
-import { PATH as LOAD_TAB_PATH, LoadTabPage } from "@/pages/load-tab";
-import { store, theme } from "./app/config";
-import dayjs from "dayjs";
-import "dayjs/locale/ru";
+import { HomePage } from '@/pages/home';
+import { PATH as NEW_TAB_PATH, NewTabPage } from '@/pages/new-tab';
+import { PATH as LOAD_TAB_PATH, LoadTabPage } from '@/pages/load-tab';
+import { store, theme } from './app/config';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
 
-import { BaseLayout } from "@/app/ui/BaseLayout";
-import { TAB_PAGE_PATH, TabPage } from "@/pages/tab-page";
-import { CssVarsProvider } from "@mui/joy";
+import { BaseLayout } from '@/app/ui/BaseLayout';
+import { TAB_PAGE_PATH, TabPage } from '@/pages/tab-page';
+import { CssVarsProvider } from '@mui/joy';
 
-dayjs.locale("ru");
+dayjs.locale('ru');
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <BaseLayout />,
     children: [
       {
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <CssVarsProvider theme={theme}>

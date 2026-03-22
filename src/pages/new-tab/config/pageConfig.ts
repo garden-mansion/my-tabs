@@ -1,1 +1,1 @@
-export const PATH = "/new-tab";
+export const PATH = '/new-tab';

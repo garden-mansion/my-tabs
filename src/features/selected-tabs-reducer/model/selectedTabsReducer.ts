@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface SelectedTabsState {
   selectedTabsIds: string[];
@@ -9,7 +9,7 @@ const selectedTabsInitialState: SelectedTabsState = {
 };
 
 const selectedTabsSlice = createSlice({
-  name: "selected-tabs",
+  name: 'selected-tabs',
   initialState: selectedTabsInitialState,
 
   reducers: {
@@ -44,6 +44,9 @@ const selectedTabsSlice = createSlice({
   },
 });
 
-export const { appendSelectedTabId, removeSelectedTabId, removeAllSelectedTabsIds } =
-  selectedTabsSlice.actions;
+export const {
+  appendSelectedTabId,
+  removeSelectedTabId,
+  removeAllSelectedTabsIds,
+} = selectedTabsSlice.actions;
 export const selectedTabsReducer = selectedTabsSlice.reducer;

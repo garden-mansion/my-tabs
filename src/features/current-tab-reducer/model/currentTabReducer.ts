@@ -1,5 +1,5 @@
-import type { Tab } from "@/entities/tab";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { Tab } from '@/entities/tab';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface CurrentTabState {
   currentTab: Tab | null;
@@ -10,7 +10,7 @@ const currentTabInitialState: CurrentTabState = {
 };
 
 const currentTabSlice = createSlice({
-  name: "current-tab",
+  name: 'current-tab',
   initialState: currentTabInitialState,
 
   reducers: {

@@ -1,2 +1,2 @@
-export * from "./store";
-export { theme } from "./theme";
+export * from './store';
+export { theme } from './theme';

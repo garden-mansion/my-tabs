@@ -1,1 +1,5 @@
-export { setCurrentTab, removeCurrentTab, currentTabReducer } from "./model/currentTabReducer";
+export {
+  setCurrentTab,
+  removeCurrentTab,
+  currentTabReducer,
+} from './model/currentTabReducer';

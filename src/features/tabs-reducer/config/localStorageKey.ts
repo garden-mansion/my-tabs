@@ -1,1 +1,1 @@
-export const TABS_LOCAL_STORAGE_KEY = "tabs";
+export const TABS_LOCAL_STORAGE_KEY = 'tabs';

@@ -1,1 +1,1 @@
-export { isNotesTextValid } from "./lib/isNotesTextValid";
+export { isNotesTextValid } from './lib/isNotesTextValid';

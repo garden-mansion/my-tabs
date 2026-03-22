@@ -1,2 +1,2 @@
-export const PATH = "/home";
-export const BREADCRUMB = "Главная";
+export const PATH = '/home';
+export const BREADCRUMB = 'Главная';

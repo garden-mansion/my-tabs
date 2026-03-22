@@ -1,16 +1,22 @@
-import type { RootState } from "@/app/config";
+import type { RootState } from '@/app/config';
 import {
   appendSelectedTabId,
   removeSelectedTabId,
   removeAllSelectedTabsIds,
-} from "@/features/selected-tabs-reducer";
-import { removeTab } from "@/features/tabs-reducer";
-import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
-import { TabsWrapper } from "@/widgets/tabs-wrapper";
-import { Button, Checkbox, Input, Stack, Typography } from "@mui/joy";
-import { useEffect, useMemo, useState, type ChangeEventHandler, type FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+} from '@/features/selected-tabs-reducer';
+import { removeTab } from '@/features/tabs-reducer';
+import { saveTabsInStorage } from '@/features/tabs-reducer/lib/saveTabsInStorage';
+import { TabsWrapper } from '@/widgets/tabs-wrapper';
+import { Button, Checkbox, Input, Stack, Typography } from '@mui/joy';
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type ChangeEventHandler,
+  type FC,
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 interface HomePageProps {
   pathToNewTabPage: string;
@@ -37,7 +43,9 @@ export const HomePage: FC<HomePageProps> = ({
 
   const dispatch = useDispatch();
 
-  const { selectedTabsIds } = useSelector((state: RootState) => state.selectedTabsReducer);
+  const { selectedTabsIds } = useSelector(
+    (state: RootState) => state.selectedTabsReducer,
+  );
   const { tabs } = useSelector((state: RootState) => state.tabsReducer);
 
   const handleCheckedChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -93,21 +101,36 @@ export const HomePage: FC<HomePageProps> = ({
       <Stack
         spacing={2}
         sx={{
-          alignItems: "flex-start",
+          alignItems: 'flex-start',
         }}
       >
-        <Stack direction={"row"} spacing={2}>
+        <Stack direction={'row'} spacing={2}>
           <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
 
           <Button onClick={handleLoadTabClick}>Загрузить табулатуру</Button>
         </Stack>
 
-        <Stack direction={"row"} spacing={2} alignItems={"center"} sx={{ minHeight: "37px" }}>
-          <Checkbox label="Выбрать" checked={checked} onChange={handleCheckedChange} />
+        <Stack
+          direction={'row'}
+          spacing={2}
+          alignItems={'center'}
+          sx={{ minHeight: '37px' }}
+        >
+          <Checkbox
+            label="Выбрать"
+            checked={checked}
+            onChange={handleCheckedChange}
+          />
 
-          {checked && <Button onClick={handleClickSelectAll}>Выбрать все</Button>}
           {checked && (
-            <Button onClick={handleDelete} disabled={deleteButtonDisabled} color="danger">
+            <Button onClick={handleClickSelectAll}>Выбрать все</Button>
+          )}
+          {checked && (
+            <Button
+              onClick={handleDelete}
+              disabled={deleteButtonDisabled}
+              color="danger"
+            >
               Удалить
             </Button>
           )}
