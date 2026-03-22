@@ -1,6 +1,7 @@
 import type { RootState } from "@/app/config";
 import { append, removeAll } from "@/features/selected-tabs-reducer";
 import { remove } from "@/features/tabs-reducer";
+import { remove as removeSelectedTabId } from "@/features/selected-tabs-reducer";
 import { saveTabsInStorage } from "@/features/tabs-reducer/lib/saveTabsInStorage";
 import { TabsWrapper } from "@/widgets/tabs-wrapper";
 import { Button, Checkbox, Input, Stack, Typography } from "@mui/joy";
@@ -13,8 +14,6 @@ interface HomePageProps {
   pathToLoadTabPage: string;
   pathToTabPage: string;
 }
-
-console.log("asdf");
 
 export const HomePage: FC<HomePageProps> = ({
   pathToNewTabPage,
@@ -60,6 +59,7 @@ export const HomePage: FC<HomePageProps> = ({
   const handleDelete = () => {
     selectedTabsIds.forEach((id) => {
       dispatch(remove(id));
+      dispatch(removeSelectedTabId(id));
     });
   };
 
@@ -75,6 +75,12 @@ export const HomePage: FC<HomePageProps> = ({
       dispatch(removeAll());
     }
   }, [tabs]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(removeAll());
+    };
+  }, []);
 
   return (
     <Stack spacing={2}>

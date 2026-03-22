@@ -1,15 +1,16 @@
 import type { Tab } from "@/entities/tab";
 import { getCustomDateFormatted } from "@/shared/lib";
-import { Button, Card, Checkbox, Stack, Typography } from "@mui/joy";
+import { Button, Card, Stack, Typography } from "@mui/joy";
 
 import { append, remove, useIsTabIdInSelected } from "@/features/selected-tabs-reducer";
 
-import { type ChangeEventHandler, type FC } from "react";
+import { useMemo, type FC } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentTab } from "@/features/current-tab-reducer";
 import { useNavigate } from "react-router";
 
 import styles from "../scss/TabCard.module.scss";
+import type { SxProps } from "@mui/joy/styles/types";
 
 interface TabCardProps {
   tab: Tab;
@@ -24,10 +25,8 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
 
   const dispatch = useDispatch();
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { checked } = event.currentTarget;
-
-    dispatch(checked ? append(id) : remove(id));
+  const handleClick = () => {
+    dispatch(checked ? remove(id) : append(id));
   };
 
   const navigate = useNavigate();
@@ -38,11 +37,28 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
     await navigate(pathToTabPage);
   };
 
+  const checkedStyle = useMemo<SxProps>(() => {
+    if (!selectMode) {
+      return {};
+    }
+
+    if (checked) {
+      return {
+        borderColor: "blue",
+      };
+    }
+
+    return {
+      opacity: 0.5,
+    };
+  }, [checked, selectMode]);
+
   return (
     <Card
       variant="outlined"
-      sx={{ justifyContent: "space-between" }}
+      sx={{ justifyContent: "space-between", ...checkedStyle }}
       className={styles["tab-card"]}
+      onClick={handleClick}
     >
       <Stack spacing={2}>
         <Stack>
@@ -51,7 +67,7 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
               {title}
             </Typography>
 
-            {selectMode && <Checkbox size="sm" checked={checked} onChange={handleChange} />}
+            {/* {selectMode && <Checkbox size="sm" checked={checked} onChange={handleChange} />} */}
           </Stack>
 
           <Typography level="body-md">{subtitle}</Typography>
