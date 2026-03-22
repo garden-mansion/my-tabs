@@ -1,0 +1,17 @@
+@use "./variables.module.scss" as vars;
+
+:root .dark-button {
+  background-color: vars.$button-bg-dark !important;
+}
+
+.light-button {
+  background-color: vars.$button-bg-light !important;
+}
+
+.danger-button {
+  background-color: rgb(233, 74, 16);
+
+  &:hover {
+    background-color: rgb(189, 66, 21);
+  }
+}

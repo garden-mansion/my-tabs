@@ -2,12 +2,19 @@ import type { Dispatch, ChangeEvent as NativeChangeEvent, SetStateAction } from 
 
 type ChangeEvent = NativeChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
-export const getChangeEventHandlerWithState = (
-  setState: Dispatch<SetStateAction<string>>,
-  effect?: () => void,
-) => {
+interface GetChangeEventHandlerWithStateParams<T> {
+  setState: Dispatch<SetStateAction<T>>;
+  eventValueExtractor: (e: ChangeEvent) => T;
+  effect?: () => void;
+}
+
+export const getChangeEventHandlerWithState = <T = string>({
+  setState,
+  eventValueExtractor,
+  effect,
+}: GetChangeEventHandlerWithStateParams<T>) => {
   return (e: ChangeEvent) => {
-    const { value } = e.currentTarget;
+    const value: T | string = eventValueExtractor(e);
     setState(value);
     effect?.();
   };

@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { setCurrentTab } from "@/features/current-tab-reducer";
 import { useNavigate } from "react-router";
 
+import styles from "../scss/TabCard.module.scss";
+
 interface TabCardProps {
   tab: Tab;
   selectMode?: boolean;
@@ -37,18 +39,29 @@ export const TabCard: FC<TabCardProps> = ({ tab, selectMode = false, pathToTabPa
   };
 
   return (
-    <Card variant="soft">
+    <Card
+      variant="outlined"
+      sx={{ justifyContent: "space-between" }}
+      className={styles["tab-card"]}
+    >
       <Stack spacing={2}>
         <Stack>
-          <Typography level="h3">{title}</Typography>
-          <Typography level="h4">{subtitle}</Typography>
+          <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+            <Typography level="body-lg" noWrap>
+              {title}
+            </Typography>
 
-          {selectMode && <Checkbox size="sm" checked={checked} onChange={handleChange} />}
+            {selectMode && <Checkbox size="sm" checked={checked} onChange={handleChange} />}
+          </Stack>
+
+          <Typography level="body-md">{subtitle}</Typography>
         </Stack>
-        <Typography level="title-sm">{getCustomDateFormatted(date)}</Typography>
+        <Typography level="body-sm">{getCustomDateFormatted(date)}</Typography>
       </Stack>
 
-      <Button onClick={handleGoToTabClick}>Перейти</Button>
+      <Button sx={{ alignSelf: "flex-end" }} onClick={handleGoToTabClick} variant="outlined">
+        Перейти
+      </Button>
     </Card>
   );
 };

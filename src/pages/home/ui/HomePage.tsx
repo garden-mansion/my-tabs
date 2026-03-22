@@ -14,6 +14,8 @@ interface HomePageProps {
   pathToTabPage: string;
 }
 
+console.log("asdf");
+
 export const HomePage: FC<HomePageProps> = ({
   pathToNewTabPage,
   pathToLoadTabPage,
@@ -91,24 +93,18 @@ export const HomePage: FC<HomePageProps> = ({
           <Button onClick={handleLoadTabClick}>Загрузить табулатуру</Button>
         </Stack>
 
-        <Stack
-          direction={"row"}
-          spacing={2}
-          alignItems={"center"}
-          sx={{ minHeight: "37px" }}
-          className="asdf"
-        >
+        <Stack direction={"row"} spacing={2} alignItems={"center"} sx={{ minHeight: "37px" }}>
           <Checkbox label="Выбрать" checked={checked} onChange={handleCheckedChange} />
 
           {checked && <Button onClick={handleClickSelectAll}>Выбрать все</Button>}
           {checked && (
-            <Button onClick={handleDelete} disabled={deleteButtonDisabled}>
+            <Button onClick={handleDelete} disabled={deleteButtonDisabled} color="danger">
               Удалить
             </Button>
           )}
         </Stack>
 
-        <Input placeholder="Поиск табулатур" />
+        <Input placeholder="Поиск табулатур" fullWidth />
       </Stack>
 
       <TabsWrapper pathToTabPage={pathToTabPage} selectMode={checked} />

@@ -1,5 +1,4 @@
-import { Alert } from "@mui/joy";
-import Grid from "@mui/joy/Grid";
+import { Alert, Grid } from "@mui/joy";
 import type { FC } from "react";
 import { TabCard } from "./TabCard";
 import { useSelector } from "react-redux";
@@ -18,9 +17,9 @@ export const TabsWrapper: FC<TabsWrapperProps> = ({ selectMode = false, pathToTa
   }
 
   return (
-    <Grid container columnSpacing={2} rowSpacing={2} sx={{ flexGrow: 1 }}>
+    <Grid container spacing={2} sx={{ flexGrow: 1 }}>
       {tabs.map((tab) => (
-        <Grid key={tab.id}>
+        <Grid>
           <TabCard pathToTabPage={pathToTabPage} selectMode={selectMode} tab={tab} />
         </Grid>
       ))}

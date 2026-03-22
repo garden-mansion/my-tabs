@@ -18,6 +18,8 @@ import dayjs from "dayjs";
 import { useEffect, useState, type FC, type SubmitEventHandler } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import styles from "../scss/NewTabPage.module.scss";
+
 import { v4 } from "uuid";
 
 export const NewTabPage: FC = () => {
@@ -28,13 +30,22 @@ export const NewTabPage: FC = () => {
   const [isTabNotesTextError, setIsTabNotesTextError] = useState<boolean>(false);
   const [tabNotesTextHelper, setTabNotesTextHelper] = useState<string>("");
 
-  const handleTabTitleChange = getChangeEventHandlerWithState(setTabTitle, () =>
-    setIsTabNameError(false),
-  );
-  const handleTabSubtitleChange = getChangeEventHandlerWithState(setTabSubtitle);
-  const handleTabNotesTextChange = getChangeEventHandlerWithState(setTabNotesText, () => {
-    setIsTabNotesTextError(false);
-    setTabNotesTextHelper("");
+  const handleTabTitleChange = getChangeEventHandlerWithState({
+    setState: setTabTitle,
+    effect: () => setIsTabNameError(false),
+    eventValueExtractor: (e) => e.currentTarget.value,
+  });
+  const handleTabSubtitleChange = getChangeEventHandlerWithState({
+    setState: setTabSubtitle,
+    eventValueExtractor: (e) => e.currentTarget.value,
+  });
+  const handleTabNotesTextChange = getChangeEventHandlerWithState({
+    setState: setTabNotesText,
+    effect: () => {
+      setIsTabNotesTextError(false);
+      setTabNotesTextHelper("");
+    },
+    eventValueExtractor: (e) => e.currentTarget.value,
   });
 
   const [wasSave, setWasSave] = useState<boolean>(false);
@@ -101,22 +112,27 @@ export const NewTabPage: FC = () => {
     >
       <Typography level="h2">Создание табулатуры</Typography>
 
-      <form onSubmit={handleSubmit}>
-        <FormControl error={isTabNameError} disabled={wasSave}>
+      <form onSubmit={handleSubmit} className={styles["new-tab-form"]}>
+        <FormControl error={isTabNameError} disabled={wasSave} required>
           <FormLabel>Название табулатуры</FormLabel>
           <Input placeholder="Новая табулатура" value={tabTitle} onChange={handleTabTitleChange} />
           <FormHelperText>{tabNameHelperText}</FormHelperText>
         </FormControl>
 
         <FormControl disabled={wasSave}>
-          <FormLabel>Подзаголовок (опционально)</FormLabel>
+          <FormLabel>Подзаголовок</FormLabel>
           <Input placeholder="..." value={tabSubtitle} onChange={handleTabSubtitleChange} />
           <FormHelperText>Можете указать автора</FormHelperText>
         </FormControl>
 
-        <FormControl error={isTabNotesTextError} disabled={wasSave}>
+        <FormControl error={isTabNotesTextError} disabled={wasSave} required>
           <FormLabel>Текстовая табулатура</FormLabel>
-          <Textarea value={tabNotesText} onChange={handleTabNotesTextChange} />
+          <Textarea
+            value={tabNotesText}
+            onChange={handleTabNotesTextChange}
+            minRows={8}
+            maxRows={16}
+          />
           <FormHelperText>{tabNotesTextHelper}</FormHelperText>
         </FormControl>
 

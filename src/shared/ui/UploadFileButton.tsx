@@ -18,11 +18,19 @@ interface UploadFileButtonProps {
   handleFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
   accept: string;
+  height?: number;
 }
 
-export const UploadFileButton: FC<UploadFileButtonProps> = ({ handleFileChange, placeholder }) => {
+export const UploadFileButton: FC<UploadFileButtonProps> = ({
+  handleFileChange,
+  placeholder,
+  height = 150,
+}) => {
   return (
     <Button
+      sx={{
+        height: `${height}px`,
+      }}
       component="label"
       role={undefined}
       tabIndex={-1}

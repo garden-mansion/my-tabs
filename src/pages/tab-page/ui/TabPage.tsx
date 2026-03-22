@@ -16,12 +16,12 @@ export const TabPage: FC = () => {
   return (
     <Stack spacing={4}>
       <Stack spacing={2}>
-        <Typography level="h3">{title}</Typography>
+        <Typography level="h2">{title}</Typography>
 
-        {subtitle && <Typography level="h4">{subtitle}</Typography>}
-        {tempo && <Typography level="title-md">{tempo} BPM</Typography>}
+        {subtitle && <Typography level="h3">{subtitle}</Typography>}
+        {tempo && <Typography level="h3">{tempo} BPM</Typography>}
 
-        <Typography level="title-sm">{getCustomDateFormatted(date)}</Typography>
+        <Typography level="h4">{getCustomDateFormatted(date)}</Typography>
       </Stack>
 
       <Tabs>
