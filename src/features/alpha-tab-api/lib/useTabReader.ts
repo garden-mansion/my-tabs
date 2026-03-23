@@ -40,4 +40,4 @@ export const useTabReader = ({
     };
 
     reader.readAsArrayBuffer(file);
-  }, [file]);
+  }, [file, apiRef, handleNotificationOpen]);

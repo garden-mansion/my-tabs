@@ -1,6 +1,9 @@
 import type { RootState } from '@/app/config';
+import { useRenderTextTab } from '@/features/alpha-tab-api';
 import { getCustomDateFormatted } from '@/shared/lib';
+import { AlphaTabApi } from '@coderline/alphatab';
 import {
+  Box,
   Stack,
   Tab,
   TabList,
@@ -9,16 +12,33 @@ import {
   Textarea,
   Typography,
 } from '@mui/joy';
-import type { FC } from 'react';
+import { useRef, useState, type FC } from 'react';
 import { useSelector } from 'react-redux';
 
 export const TabPage: FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const apiRef = useRef<AlphaTabApi>(null);
+  const [activeTab, setActiveTab] = useState<number>(0);
+
   const { currentTab } = useSelector(
     (root: RootState) => root.currentTabReducer,
   );
 
+  const handleActiveTabChange = (value: string | number | null) => {
+    if (typeof value === 'number') {
+      setActiveTab(value);
+    }
+  };
+
+  useRenderTextTab({
+    containerRef,
+    apiRef,
+    text: currentTab?.notesText ?? '',
+    enabled: activeTab === 1,
+  });
+
   if (!currentTab) {
-    return;
+    return null;
   }
 
   const { title, subtitle, tempo, date, notesText } = currentTab;
@@ -34,7 +54,11 @@ export const TabPage: FC = () => {
         <Typography level="h4">{getCustomDateFormatted(date)}</Typography>
       </Stack>
 
-      <Tabs>
+      <Tabs
+        value={activeTab}
+        defaultValue={activeTab}
+        onChange={(_, value) => handleActiveTabChange(value)}
+      >
         <TabList>
           <Tab>Исходный текст</Tab>
           <Tab>Нотный вид</Tab>
@@ -44,7 +68,9 @@ export const TabPage: FC = () => {
           <Textarea disabled value={notesText} />
         </TabPanel>
 
-        <TabPanel value={1}>empty for now</TabPanel>
+        <TabPanel value={1} keepMounted>
+          <Box ref={containerRef} />
+        </TabPanel>
       </Tabs>
     </Stack>
   );

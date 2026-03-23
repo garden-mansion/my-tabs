@@ -15,6 +15,7 @@ export const useAlphaTabApi = ({
 }: UseTabRenderParams) =>
   useEffect(() => {
     if (!containerRef.current) {
+      console.log('in use alpha tab api no container ref current');
       return;
     }
 
@@ -39,4 +40,4 @@ export const useAlphaTabApi = ({
       api.destroy();
       apiRef.current = null;
     };
-  }, []);
+  }, [containerRef, apiRef, handleNotificationOpen]);
