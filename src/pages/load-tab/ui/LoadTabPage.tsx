@@ -1,4 +1,4 @@
-import { useAlphaTabApi, useTabReader } from '@/features/tab-reader';
+import { useAlphaTabApi, useTabReader } from '@/features/alpha-tab-api';
 import { Notification, UploadFileButton } from '@/shared/ui';
 import { supportedFormats } from '@/pages/load-tab/config/supportedFormats';
 import type { AlphaTabApi } from '@coderline/alphatab';
