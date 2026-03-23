@@ -27,10 +27,10 @@ export const useAlphaTabApi = ({
       },
     });
 
-    api.scoreLoaded.on(() => handleNotificationOpen('loaded', 'success'));
-    api.renderFinished.on(() =>
-      handleNotificationOpen('render has finished', 'success'),
-    );
+    // api.scoreLoaded.on(() => handleNotificationOpen('loaded', 'success'));
+    // api.renderFinished.on(() =>
+    //   handleNotificationOpen('render has finished', 'success'),
+    // );
     api.error.on((e) => handleNotificationOpen(e.message, 'danger'));
 
     apiRef.current = api;

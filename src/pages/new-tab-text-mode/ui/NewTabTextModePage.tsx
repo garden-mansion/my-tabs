@@ -32,17 +32,28 @@ export const NewTabTextModePage: FC = () => {
     useState<boolean>(false);
   const [tabNotesTextHelper, setTabNotesTextHelper] = useState<string>('');
 
-  const handleTabTitleChange = getChangeEventHandlerWithState(setTabTitle, () =>
-    setIsTabNameError(false),
+  const handleTabTitleChange = getChangeEventHandlerWithState(
+    setTabTitle,
+    (value) => value,
+    () => setIsTabNameError(false),
   );
-  const handleTabSubtitleChange =
-    getChangeEventHandlerWithState(setTabSubtitle);
+  const handleTabSubtitleChange = getChangeEventHandlerWithState(
+    setTabSubtitle,
+    (value) => value,
+  );
   const handleTabNotesTextChange = getChangeEventHandlerWithState(
     setTabNotesText,
+    (value) => value,
     () => {
       setIsTabNotesTextError(false);
       setTabNotesTextHelper('');
     },
+  );
+
+  const [tempo, setTempo] = useState<number>(67);
+  const handleTempoChange = getChangeEventHandlerWithState<number>(
+    setTempo,
+    (value) => Number.parseInt(value),
   );
 
   const [wasSave, setWasSave] = useState<boolean>(false);
@@ -88,6 +99,7 @@ export const NewTabTextModePage: FC = () => {
       title: tabTitle,
       subtitle: tabSubtitle,
       notesText: tabNotesText,
+      tempo,
       id: v4(),
       date: {
         year: now.year(),
@@ -141,6 +153,21 @@ export const NewTabTextModePage: FC = () => {
               onChange={handleTabSubtitleChange}
             />
             <FormHelperText>Можете указать автора</FormHelperText>
+          </FormControl>
+
+          <FormControl disabled={wasSave}>
+            <FormLabel>Темп (BPM)</FormLabel>
+
+            <Input
+              type="number"
+              value={tempo}
+              onChange={handleTempoChange}
+              slotProps={{
+                input: {
+                  min: 1,
+                },
+              }}
+            />
           </FormControl>
 
           <FormControl error={isTabNotesTextError} disabled={wasSave} required>
