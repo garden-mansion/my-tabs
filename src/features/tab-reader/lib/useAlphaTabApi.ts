@@ -1,12 +1,18 @@
+import type { HandleNotificationOpenType } from '@/shared/lib';
 import { AlphaTabApi } from '@coderline/alphatab';
 import { useEffect, type RefObject } from 'react';
 
 interface UseTabRenderParams {
   containerRef: RefObject<HTMLDivElement | null>;
   apiRef: RefObject<AlphaTabApi | null>;
+  handleNotificationOpen: HandleNotificationOpenType;
 }
 
-export const useAlphaTabApi = ({ containerRef, apiRef }: UseTabRenderParams) =>
+export const useAlphaTabApi = ({
+  containerRef,
+  apiRef,
+  handleNotificationOpen,
+}: UseTabRenderParams) =>
   useEffect(() => {
     if (!containerRef.current) {
       return;
@@ -21,10 +27,11 @@ export const useAlphaTabApi = ({ containerRef, apiRef }: UseTabRenderParams) =>
       },
     });
 
-    // TODO: мб потом убрать
-    api.scoreLoaded.on(() => console.log('LOADED'));
-    api.renderFinished.on(() => console.log('RENDERED'));
-    api.error.on((e) => console.error(e));
+    api.scoreLoaded.on(() => handleNotificationOpen('loaded', 'success'));
+    api.renderFinished.on(() =>
+      handleNotificationOpen('render has finished', 'success'),
+    );
+    api.error.on((e) => handleNotificationOpen(e.message, 'danger'));
 
     apiRef.current = api;
 

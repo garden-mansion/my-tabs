@@ -3,7 +3,7 @@ import type { Tab } from '@/entities/tab';
 import { isNotesTextValid } from '@/features/notes-text-validation';
 import { appendTab } from '@/features/tabs-reducer';
 import { saveTabsInStorage } from '@/features/tabs-reducer/lib/saveTabsInStorage';
-import { getChangeEventHandlerWithState } from '@/shared/lib';
+import { getChangeEventHandlerWithState, useNotification } from '@/shared/lib';
 import {
   Button,
   FormControl,
@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from '../scss/NewTabPage.module.scss';
 
 import { v4 } from 'uuid';
+import { Notification } from '@/shared/ui';
 
 export const NewTabPage: FC = () => {
   const [tabTitle, setTabTitle] = useState<string>('');
@@ -52,6 +53,14 @@ export const NewTabPage: FC = () => {
 
   const tabs = useSelector((state: RootState) => state.tabsReducer.tabs);
   const dispatch = useDispatch();
+
+  const {
+    isNotificationShown,
+    notificationMessage,
+    notificationColor,
+    handleNotificationOpen,
+    handleNotificationClose,
+  } = useNotification();
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -92,6 +101,8 @@ export const NewTabPage: FC = () => {
 
     dispatch(appendTab(newTab));
     setWasSave(true);
+
+    handleNotificationOpen('Табулатура сохранена!', 'success');
   };
 
   useEffect(() => {
@@ -100,50 +111,59 @@ export const NewTabPage: FC = () => {
 
   // TODO: не использовать sx
   return (
-    <Stack
-      spacing={2}
-      sx={{
-        alignItems: 'flex-start',
-      }}
-    >
-      <Typography level="h2">Создание табулатуры</Typography>
+    <>
+      <Stack
+        spacing={2}
+        sx={{
+          alignItems: 'flex-start',
+        }}
+      >
+        <Typography level="h2">Создание табулатуры</Typography>
 
-      <form onSubmit={handleSubmit} className={styles['new-tab-form']}>
-        <FormControl error={isTabNameError} disabled={wasSave} required>
-          <FormLabel>Название табулатуры</FormLabel>
-          <Input
-            placeholder="Новая табулатура"
-            value={tabTitle}
-            onChange={handleTabTitleChange}
-          />
-          <FormHelperText>{tabNameHelperText}</FormHelperText>
-        </FormControl>
+        <form onSubmit={handleSubmit} className={styles['new-tab-form']}>
+          <FormControl error={isTabNameError} disabled={wasSave} required>
+            <FormLabel>Название табулатуры</FormLabel>
+            <Input
+              placeholder="Новая табулатура"
+              value={tabTitle}
+              onChange={handleTabTitleChange}
+            />
+            <FormHelperText>{tabNameHelperText}</FormHelperText>
+          </FormControl>
 
-        <FormControl disabled={wasSave}>
-          <FormLabel>Подзаголовок</FormLabel>
-          <Input
-            placeholder="..."
-            value={tabSubtitle}
-            onChange={handleTabSubtitleChange}
-          />
-          <FormHelperText>Можете указать автора</FormHelperText>
-        </FormControl>
+          <FormControl disabled={wasSave}>
+            <FormLabel>Подзаголовок</FormLabel>
+            <Input
+              placeholder="..."
+              value={tabSubtitle}
+              onChange={handleTabSubtitleChange}
+            />
+            <FormHelperText>Можете указать автора</FormHelperText>
+          </FormControl>
 
-        <FormControl error={isTabNotesTextError} disabled={wasSave} required>
-          <FormLabel>Текстовая табулатура</FormLabel>
-          <Textarea
-            value={tabNotesText}
-            onChange={handleTabNotesTextChange}
-            minRows={8}
-            maxRows={16}
-          />
-          <FormHelperText>{tabNotesTextHelper}</FormHelperText>
-        </FormControl>
+          <FormControl error={isTabNotesTextError} disabled={wasSave} required>
+            <FormLabel>Текстовая табулатура</FormLabel>
+            <Textarea
+              value={tabNotesText}
+              onChange={handleTabNotesTextChange}
+              minRows={8}
+              maxRows={16}
+            />
+            <FormHelperText>{tabNotesTextHelper}</FormHelperText>
+          </FormControl>
 
-        <Button disabled={wasSave} type="submit">
-          Сохранить
-        </Button>
-      </form>
-    </Stack>
+          <Button disabled={wasSave} type="submit">
+            Сохранить
+          </Button>
+        </form>
+      </Stack>
+
+      <Notification
+        message={notificationMessage}
+        open={isNotificationShown}
+        handleClose={handleNotificationClose}
+        color={notificationColor}
+      />
+    </>
   );
 };

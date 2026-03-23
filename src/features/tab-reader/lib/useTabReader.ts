@@ -1,12 +1,18 @@
+import type { HandleNotificationOpenType } from '@/shared/lib';
 import { AlphaTabApi } from '@coderline/alphatab';
 import { useEffect, type RefObject } from 'react';
 
 interface UseTabReaderParams {
   file: File | null;
   apiRef: RefObject<AlphaTabApi | null>;
+  handleNotificationOpen: HandleNotificationOpenType;
 }
 
-export const useTabReader = ({ file, apiRef }: UseTabReaderParams) =>
+export const useTabReader = ({
+  file,
+  apiRef,
+  handleNotificationOpen,
+}: UseTabReaderParams) =>
   useEffect(() => {
     if (!file || !apiRef.current) {
       return;
@@ -24,7 +30,12 @@ export const useTabReader = ({ file, apiRef }: UseTabReaderParams) =>
         // alphaTab принимает ArrayBuffer
         apiRef.current!.load(data as ArrayBuffer);
       } catch (err) {
-        console.error(err);
+        // error never occurs for some reason
+        // хз мб потом разберусь
+        if (!(err instanceof Error)) {
+          return;
+        }
+        handleNotificationOpen(err.message, 'danger');
       }
     };
 
