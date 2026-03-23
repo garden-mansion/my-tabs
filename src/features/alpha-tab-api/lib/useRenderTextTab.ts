@@ -17,7 +17,6 @@ export const useRenderTextTab = ({
   enabled,
 }: UseRenderTextTabParams) =>
   useEffect(() => {
-    console.log('in use render text tab');
     if (!enabled || !containerRef.current) {
       return;
     }
@@ -32,7 +31,7 @@ export const useRenderTextTab = ({
       },
     });
     api.tex(text);
-    api.error.on((e) => console.log(e.message, 'danger'));
+    // api.error.on((e) => console.log(e.message, 'danger'));
 
     apiRef.current = api;
 
