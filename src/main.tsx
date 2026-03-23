@@ -5,7 +5,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import { Provider } from 'react-redux';
 
 import { HomePage } from '@/pages/home';
-import { PATH as NEW_TAB_PATH, NewTabPage } from '@/pages/new-tab';
+import {
+  PATH as NEW_TAB_TEXT_MODE_PATH,
+  NewTabTextModePage,
+} from '@/pages/new-tab-text-mode';
 import { PATH as LOAD_TAB_PATH, LoadTabPage } from '@/pages/load-tab';
 import { store, theme } from './app/config';
 import dayjs from 'dayjs';
@@ -26,7 +29,6 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <HomePage
-            pathToNewTabPage={NEW_TAB_PATH}
             pathToLoadTabPage={LOAD_TAB_PATH}
             pathToTabPage={TAB_PAGE_PATH}
           />
@@ -34,8 +36,8 @@ const router = createBrowserRouter([
       },
 
       {
-        path: NEW_TAB_PATH,
-        element: <NewTabPage />,
+        path: NEW_TAB_TEXT_MODE_PATH,
+        element: <NewTabTextModePage />,
       },
 
       {

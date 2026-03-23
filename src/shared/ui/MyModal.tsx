@@ -1,34 +1,27 @@
-import { WarningOutlined } from '@mui/icons-material';
 import {
-  Button,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
   Modal,
   ModalDialog,
-  type ColorPaletteProp,
 } from '@mui/joy';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
-interface MyModalProps {
-  title: string;
-  content: string;
+export interface MyModalProps {
+  title: ReactNode;
+  content: ReactNode;
   isOpen: boolean;
-  confirmTitle: string;
-  confirmColor: ColorPaletteProp;
   handleClose: () => void;
-  handleConfirm: () => void;
+  actions: ReactNode;
 }
 
 export const MyModal: FC<MyModalProps> = ({
   title,
   content,
   isOpen,
-  confirmTitle,
-  confirmColor,
   handleClose,
-  handleConfirm,
+  actions,
 }) => {
   return (
     <Modal
@@ -39,23 +32,13 @@ export const MyModal: FC<MyModalProps> = ({
       sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
       <ModalDialog variant="outlined" role="alertdialog">
-        <DialogTitle>
-          <WarningOutlined />
-          {title}
-        </DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
 
         <Divider />
 
         <DialogContent>{content}</DialogContent>
 
-        <DialogActions>
-          <Button variant="solid" color="neutral" onClick={handleClose}>
-            Отмена
-          </Button>
-          <Button variant="solid" color={confirmColor} onClick={handleConfirm}>
-            {confirmTitle}
-          </Button>
-        </DialogActions>
+        <DialogActions>{actions}</DialogActions>
       </ModalDialog>
     </Modal>
   );

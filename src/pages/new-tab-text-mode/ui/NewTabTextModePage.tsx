@@ -18,12 +18,12 @@ import dayjs from 'dayjs';
 import { useEffect, useState, type FC, type SubmitEventHandler } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styles from '../scss/NewTabPage.module.scss';
+import styles from '../scss/NewTabTextModePage.module.scss';
 
 import { v4 } from 'uuid';
 import { Notification } from '@/shared/ui';
 
-export const NewTabPage: FC = () => {
+export const NewTabTextModePage: FC = () => {
   const [tabTitle, setTabTitle] = useState<string>('');
   const [tabSubtitle, setTabSubtitle] = useState<string>('');
   const [tabNotesText, setTabNotesText] = useState<string>('');
@@ -109,7 +109,6 @@ export const NewTabPage: FC = () => {
     saveTabsInStorage(tabs);
   }, [tabs]);
 
-  // TODO: не использовать sx
   return (
     <>
       <Stack
@@ -120,7 +119,10 @@ export const NewTabPage: FC = () => {
       >
         <Typography level="h2">Создание табулатуры</Typography>
 
-        <form onSubmit={handleSubmit} className={styles['new-tab-form']}>
+        <form
+          onSubmit={handleSubmit}
+          className={styles['new-tab-text-mode-form']}
+        >
           <FormControl error={isTabNameError} disabled={wasSave} required>
             <FormLabel>Название табулатуры</FormLabel>
             <Input

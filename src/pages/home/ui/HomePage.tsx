@@ -8,19 +8,24 @@ import { useWatchTabsChange } from '../lib/useWatchTabsChange';
 import { SelectTabsPanel } from './SelectTabsPanel';
 import { DeleteTabsModal } from './DeleteTabsModal';
 import { Notification } from '@/shared/ui';
+import { NewTabModal } from './NewTabModal';
 
 interface HomePageProps {
-  pathToNewTabPage: string;
   pathToLoadTabPage: string;
   pathToTabPage: string;
 }
 
 export const HomePage: FC<HomePageProps> = ({
-  pathToNewTabPage,
   pathToLoadTabPage,
   pathToTabPage,
 }) => {
-  const handleCreateTabClick = useNavigateToPage(pathToNewTabPage);
+  const [isNewTabModalOpen, setIsNewTabModalOpen] = useState<boolean>(false);
+  const handleNewTabModalOpen = () => setIsNewTabModalOpen(true);
+  const handleNewTabModalClose = () => setIsNewTabModalOpen(false);
+
+  const handleCreateTabClick = () => {
+    handleNewTabModalOpen();
+  };
   const handleLoadTabClick = useNavigateToPage(pathToLoadTabPage);
 
   const [checked, setChecked] = useState<boolean>(false);
@@ -89,6 +94,11 @@ export const HomePage: FC<HomePageProps> = ({
         open={isNotificationShown}
         handleClose={handleNotificationClose}
         color={notificationColor}
+      />
+
+      <NewTabModal
+        isOpen={isNewTabModalOpen}
+        handleClose={handleNewTabModalClose}
       />
     </>
   );

@@ -1,5 +1,5 @@
 import type { Tab } from '@/entities/tab';
-import { getCustomDateFormatted } from '@/shared/lib';
+import { getCustomDateFormatted, useNavigateToPage } from '@/shared/lib';
 import { Button, Card, Stack, Typography } from '@mui/joy';
 
 import {
@@ -11,7 +11,6 @@ import {
 import { useMemo, type FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCurrentTab } from '@/features/current-tab-reducer';
-import { useNavigate } from 'react-router';
 
 import styles from '../scss/TabCard.module.scss';
 import type { SxProps } from '@mui/joy/styles/types';
@@ -37,13 +36,9 @@ export const TabCard: FC<TabCardProps> = ({
     dispatch(checked ? removeSelectedTabId(id) : appendSelectedTabId(id));
   };
 
-  const navigate = useNavigate();
-
-  const handleGoToTabClick = async () => {
-    dispatch(setCurrentTab(tab));
-
-    await navigate(pathToTabPage);
-  };
+  const handleGoToTabClick = useNavigateToPage(pathToTabPage, () =>
+    dispatch(setCurrentTab(tab)),
+  );
 
   const checkedStyle = useMemo<SxProps>(() => {
     if (!selectMode) {
