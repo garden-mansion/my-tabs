@@ -1,6 +1,6 @@
 import type { RootState } from '@/app/config';
 import { appendTab } from '@/features/tabs-reducer';
-import { saveTabsInStorage } from '@/features/tabs-reducer/lib/saveTabsInStorage';
+import { saveTabsInStorage } from '@/features/tabs-reducer';
 import { useNotification } from '@/shared/lib';
 import { Stack, Typography } from '@mui/joy';
 import { useEffect, type FC } from 'react';
@@ -16,7 +16,7 @@ import {
 } from '@/features/tab-form-reducer';
 
 export const NewTabTextModePage: FC = () => {
-  const tabs = useSelector((state: RootState) => state.tabsReducer.tabs);
+  const { tabs } = useSelector((root: RootState) => root.tabsReducer);
   const dispatch = useDispatch();
 
   const {

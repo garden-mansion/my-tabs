@@ -13,11 +13,13 @@ import { NewTabModal } from './NewTabModal';
 interface HomePageProps {
   pathToLoadTabPage: string;
   pathToTabPage: string;
+  pathToEditTabPage: string;
 }
 
 export const HomePage: FC<HomePageProps> = ({
   pathToLoadTabPage,
   pathToTabPage,
+  pathToEditTabPage,
 }) => {
   const [isNewTabModalOpen, setIsNewTabModalOpen] = useState<boolean>(false);
   const handleNewTabModalOpen = () => setIsNewTabModalOpen(true);
@@ -84,7 +86,11 @@ export const HomePage: FC<HomePageProps> = ({
           <Input placeholder="Поиск табулатур" fullWidth />
         </Stack>
 
-        <TabsWrapper pathToTabPage={pathToTabPage} selectMode={checked} />
+        <TabsWrapper
+          pathToTabPage={pathToTabPage}
+          pathToEditTabPage={pathToEditTabPage}
+          selectMode={checked}
+        />
 
         <DeleteTabsModal
           isModalOpen={isModalOpen}

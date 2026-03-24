@@ -1,3 +1,4 @@
+import type { Tab } from '@/entities/tab';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface TabFormState {
@@ -70,6 +71,15 @@ const tabFormSlice = createSlice({
     resetForm: () => {
       return tabFormInitialState;
     },
+
+    loadDataInFormFromTab: (state, action: PayloadAction<Tab>) => {
+      const { title, subtitle, tempo, notesText } = action.payload;
+
+      state.tabTitle = title;
+      state.tabSubtitle = subtitle ?? state.tabSubtitle;
+      state.tempo = tempo ?? state.tempo;
+      state.tabNotesText = notesText;
+    },
   },
 });
 
@@ -86,6 +96,7 @@ export const {
   setTabSubtitleHelperText,
   setTabNotesTextHelperText,
   resetForm,
+  loadDataInFormFromTab,
 } = tabFormSlice.actions;
 
 export const tabFormReducer = tabFormSlice.reducer;

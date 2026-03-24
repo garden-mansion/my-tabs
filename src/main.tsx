@@ -17,6 +17,11 @@ import 'dayjs/locale/ru';
 import { BaseLayout } from '@/app/ui/BaseLayout';
 import { TAB_PAGE_PATH, TabPage } from '@/pages/tab-page';
 import { CssVarsProvider } from '@mui/joy';
+import {
+  EDIT_TAB_PAGE_PATH,
+  EDIT_TAB_PATH_BASE,
+  EditTabPage,
+} from './pages/edit-tab';
 
 dayjs.locale('ru');
 
@@ -29,6 +34,7 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <HomePage
+            pathToEditTabPage={EDIT_TAB_PATH_BASE}
             pathToLoadTabPage={LOAD_TAB_PATH}
             pathToTabPage={TAB_PAGE_PATH}
           />
@@ -48,6 +54,11 @@ const router = createBrowserRouter([
       {
         path: TAB_PAGE_PATH,
         element: <TabPage />,
+      },
+
+      {
+        path: EDIT_TAB_PAGE_PATH,
+        element: <EditTabPage />,
       },
     ],
   },

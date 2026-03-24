@@ -7,11 +7,13 @@ import type { RootState } from '@/app/config';
 interface TabsWrapperProps {
   selectMode?: boolean;
   pathToTabPage: string;
+  pathToEditTabPage: string;
 }
 
 export const TabsWrapper: FC<TabsWrapperProps> = ({
   selectMode = false,
   pathToTabPage,
+  pathToEditTabPage,
 }) => {
   const tabs = useSelector((state: RootState) => state.tabsReducer.tabs);
 
@@ -25,6 +27,7 @@ export const TabsWrapper: FC<TabsWrapperProps> = ({
         <Grid key={tab.id}>
           <TabCard
             pathToTabPage={pathToTabPage}
+            pathToEditTabPage={pathToEditTabPage}
             selectMode={selectMode}
             tab={tab}
           />

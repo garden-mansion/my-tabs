@@ -2,23 +2,21 @@ import type { RootState } from '@/app/config';
 import type { Tab } from '@/entities/tab';
 import { getCurrentCustomDate } from '@/shared/lib';
 import { useSelector } from 'react-redux';
-import { v4 } from 'uuid';
 
-export const useGetNewTabFromForm = () => {
-  const { tabTitle, tabSubtitle, tabNotesText, tempo } = useSelector(
+export const useGetTabFromForm = () => {
+  const { tabTitle, tabSubtitle, tempo, tabNotesText } = useSelector(
     (root: RootState) => root.tabFormReducer,
   );
 
-  return (): Tab => {
-    const newTab: Tab = {
+  return (id: string): Tab => {
+    return {
+      id,
       title: tabTitle,
       subtitle: tabSubtitle,
-      notesText: tabNotesText,
       tempo,
-      id: v4(),
+      notesText: tabNotesText,
+
       date: getCurrentCustomDate(),
     };
-
-    return newTab;
   };
 };

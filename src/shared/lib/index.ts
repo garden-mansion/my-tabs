@@ -6,3 +6,4 @@ export {
   useNotification,
   type HandleNotificationOpenType,
 } from './useNotification';
+export { getCurrentCustomDate } from './getCurrentCustomDate';

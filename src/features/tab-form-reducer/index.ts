@@ -11,6 +11,7 @@ export {
   setTabTitleHelperText,
   setTabNotesTextHelperText,
   resetForm,
+  loadDataInFormFromTab,
 } from './model/tabFormReducer';
 
 export {
@@ -20,6 +21,8 @@ export {
   useHandleTempoChange,
   useHandleSubmitTabForm,
 } from './lib/tabFormHandlers';
+
+export { useGetTabFromForm } from './lib/useGetTabFromForm';
 
 export { useGetNewTabFromForm } from './lib/useGetNewTabFromForm';
 export { useResetFormOnUnmount } from './lib/useResetFormOnUnmount';

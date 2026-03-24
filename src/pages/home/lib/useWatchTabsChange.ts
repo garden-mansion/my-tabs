@@ -1,10 +1,9 @@
 import type { RootState } from '@/app/config';
 import { removeAllSelectedTabsIds } from '@/features/selected-tabs-reducer';
-import { saveTabsInStorage } from '@/features/tabs-reducer/lib/saveTabsInStorage';
+import { saveTabsInStorage } from '@/features/tabs-reducer';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-/** Отслеживание изменений табулатур */
 export const useWatchTabsChange = () => {
   const { tabs } = useSelector((root: RootState) => root.tabsReducer);
   const dispatch = useDispatch();

@@ -20,12 +20,14 @@ interface TabCardProps {
   tab: Tab;
   selectMode?: boolean;
   pathToTabPage: string;
+  pathToEditTabPage: string;
 }
 
 export const TabCard: FC<TabCardProps> = ({
   tab,
   selectMode = false,
   pathToTabPage,
+  pathToEditTabPage,
 }) => {
   const { title, subtitle, date, id } = tab;
 
@@ -41,9 +43,7 @@ export const TabCard: FC<TabCardProps> = ({
     dispatch(setCurrentTab(tab)),
   );
 
-  // const handleEditTabClick = useNavigateToPage('', () =>
-  //   dispatch(setCurrentTab(tab)),
-  // );
+  const handleEditTabClick = useNavigateToPage(`${pathToEditTabPage}/${id}`);
 
   const checkedStyle = useMemo<SxProps>(() => {
     if (!selectMode) {
@@ -91,7 +91,11 @@ export const TabCard: FC<TabCardProps> = ({
         gap={1}
         sx={{ flexWrap: 'wrap' }}
       >
-        <Button disabled={selectMode} variant="outlined">
+        <Button
+          disabled={selectMode}
+          onClick={handleEditTabClick}
+          variant="outlined"
+        >
           <Edit fontSize="small" /> Редактировать
         </Button>
 
