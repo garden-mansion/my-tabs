@@ -1,5 +1,6 @@
 import { currentTabReducer } from '@/features/current-tab-reducer';
 import { selectedTabsReducer } from '@/features/selected-tabs-reducer';
+import { tabFormReducer } from '@/features/tab-form-reducer';
 import { tabsReducer } from '@/features/tabs-reducer';
 import { configureStore } from '@reduxjs/toolkit';
 
@@ -8,6 +9,7 @@ export const store = configureStore({
     tabsReducer,
     selectedTabsReducer,
     currentTabReducer,
+    tabFormReducer,
   },
 });
 

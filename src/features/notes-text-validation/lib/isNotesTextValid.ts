@@ -1,4 +1,4 @@
-const NOTE_PATTERN = /^\d+\.\d+$/;
+const NOTE_PATTERN = /^\d+\.[123456]$/;
 const noteRegexp = new RegExp(NOTE_PATTERN);
 
 export const isNotesTextValid = (text: string): boolean => {

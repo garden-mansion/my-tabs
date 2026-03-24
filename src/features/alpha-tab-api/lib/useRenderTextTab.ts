@@ -1,4 +1,3 @@
-// import type { HandleNotificationOpenType } from "@/shared/lib";
 import { AlphaTabApi } from '@coderline/alphatab';
 import { useEffect, type RefObject } from 'react';
 

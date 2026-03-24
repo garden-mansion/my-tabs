@@ -66,9 +66,13 @@ export const HomePage: FC<HomePageProps> = ({
             alignItems: 'flex-start',
           }}
         >
-          <Stack direction={'row'} spacing={2}>
-            <Button onClick={handleCreateTabClick}>Создать табулатуру</Button>
-            <Button onClick={handleLoadTabClick}>Загрузить табулатуру</Button>
+          <Stack direction={'row'} gap={1} sx={{ flexWrap: 'wrap' }}>
+            <Button sx={{ minWidth: '173px' }} onClick={handleCreateTabClick}>
+              Создать табулатуру
+            </Button>
+            <Button sx={{ minWidth: '173px' }} onClick={handleLoadTabClick}>
+              Загрузить табулатуру
+            </Button>
           </Stack>
 
           <SelectTabsPanel

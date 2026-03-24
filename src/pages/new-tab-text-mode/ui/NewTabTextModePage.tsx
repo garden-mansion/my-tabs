@@ -1,67 +1,21 @@
 import type { RootState } from '@/app/config';
-import type { Tab } from '@/entities/tab';
-import { isNotesTextValid } from '@/features/notes-text-validation';
 import { appendTab } from '@/features/tabs-reducer';
 import { saveTabsInStorage } from '@/features/tabs-reducer/lib/saveTabsInStorage';
-import { getChangeEventHandlerWithState, useNotification } from '@/shared/lib';
-import {
-  Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Stack,
-  Textarea,
-  Typography,
-} from '@mui/joy';
-import dayjs from 'dayjs';
-import { useEffect, useState, type FC, type SubmitEventHandler } from 'react';
+import { useNotification } from '@/shared/lib';
+import { Stack, Typography } from '@mui/joy';
+import { useEffect, type FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styles from '../scss/NewTabTextModePage.module.scss';
-
-import { v4 } from 'uuid';
 import { Notification } from '@/shared/ui';
+import { TabDataForm } from '@/widgets/tab-data-form';
+import {
+  setWasSave,
+  useGetNewTabFromForm,
+  useHandleSubmitTabForm,
+  useResetFormOnUnmount,
+} from '@/features/tab-form-reducer';
 
 export const NewTabTextModePage: FC = () => {
-  const [tabTitle, setTabTitle] = useState<string>('');
-  const [tabSubtitle, setTabSubtitle] = useState<string>('');
-  const [tabNotesText, setTabNotesText] = useState<string>('');
-  const [isTabNameError, setIsTabNameError] = useState<boolean>(false);
-  const [isTabNotesTextError, setIsTabNotesTextError] =
-    useState<boolean>(false);
-  const [tabNotesTextHelper, setTabNotesTextHelper] = useState<string>('');
-
-  const handleTabTitleChange = getChangeEventHandlerWithState(
-    setTabTitle,
-    (value) => value,
-    () => setIsTabNameError(false),
-  );
-  const handleTabSubtitleChange = getChangeEventHandlerWithState(
-    setTabSubtitle,
-    (value) => value,
-  );
-  const handleTabNotesTextChange = getChangeEventHandlerWithState(
-    setTabNotesText,
-    (value) => value,
-    () => {
-      setIsTabNotesTextError(false);
-      setTabNotesTextHelper('');
-    },
-  );
-
-  const [tempo, setTempo] = useState<number>(67);
-  const handleTempoChange = getChangeEventHandlerWithState<number>(
-    setTempo,
-    (value) => Number.parseInt(value),
-  );
-
-  const [wasSave, setWasSave] = useState<boolean>(false);
-
-  const tabNameHelperText = isTabNameError
-    ? 'Обязательное поле!'
-    : 'Хорошее название поможет легче находить табулатуру';
-
   const tabs = useSelector((state: RootState) => state.tabsReducer.tabs);
   const dispatch = useDispatch();
 
@@ -73,53 +27,22 @@ export const NewTabTextModePage: FC = () => {
     handleNotificationClose,
   } = useNotification();
 
-  const handleSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
+  const createNewTab = useGetNewTabFromForm();
 
-    if (!tabTitle) {
-      setIsTabNameError(true);
-      return;
-    }
-
-    if (!tabNotesText) {
-      setIsTabNotesTextError(true);
-      setTabNotesTextHelper('Обязательное поле');
-      return;
-    }
-
-    if (!isNotesTextValid(tabNotesText)) {
-      setIsTabNotesTextError(true);
-      setTabNotesTextHelper('Некорректный синтаксис!');
-      return;
-    }
-
-    const now = dayjs();
-
-    const newTab: Tab = {
-      title: tabTitle,
-      subtitle: tabSubtitle,
-      notesText: tabNotesText,
-      tempo,
-      id: v4(),
-      date: {
-        year: now.year(),
-        month: now.month(),
-        date: now.date(),
-
-        hour: now.hour(),
-        minute: now.hour(),
-      },
-    };
+  const handleSubmit = useHandleSubmitTabForm(() => {
+    const newTab = createNewTab();
 
     dispatch(appendTab(newTab));
-    setWasSave(true);
+    dispatch(setWasSave(true));
 
     handleNotificationOpen('Табулатура сохранена!', 'success');
-  };
+  });
 
   useEffect(() => {
     saveTabsInStorage(tabs);
   }, [tabs]);
+
+  useResetFormOnUnmount();
 
   return (
     <>
@@ -131,60 +54,7 @@ export const NewTabTextModePage: FC = () => {
       >
         <Typography level="h2">Создание табулатуры</Typography>
 
-        <form
-          onSubmit={handleSubmit}
-          className={styles['new-tab-text-mode-form']}
-        >
-          <FormControl error={isTabNameError} disabled={wasSave} required>
-            <FormLabel>Название табулатуры</FormLabel>
-            <Input
-              placeholder="Новая табулатура"
-              value={tabTitle}
-              onChange={handleTabTitleChange}
-            />
-            <FormHelperText>{tabNameHelperText}</FormHelperText>
-          </FormControl>
-
-          <FormControl disabled={wasSave}>
-            <FormLabel>Подзаголовок</FormLabel>
-            <Input
-              placeholder="..."
-              value={tabSubtitle}
-              onChange={handleTabSubtitleChange}
-            />
-            <FormHelperText>Можете указать автора</FormHelperText>
-          </FormControl>
-
-          <FormControl disabled={wasSave}>
-            <FormLabel>Темп (BPM)</FormLabel>
-
-            <Input
-              type="number"
-              value={tempo}
-              onChange={handleTempoChange}
-              slotProps={{
-                input: {
-                  min: 1,
-                },
-              }}
-            />
-          </FormControl>
-
-          <FormControl error={isTabNotesTextError} disabled={wasSave} required>
-            <FormLabel>Текстовая табулатура</FormLabel>
-            <Textarea
-              value={tabNotesText}
-              onChange={handleTabNotesTextChange}
-              minRows={8}
-              maxRows={16}
-            />
-            <FormHelperText>{tabNotesTextHelper}</FormHelperText>
-          </FormControl>
-
-          <Button disabled={wasSave} type="submit">
-            Сохранить
-          </Button>
-        </form>
+        <TabDataForm handleSubmit={handleSubmit} />
       </Stack>
 
       <Notification

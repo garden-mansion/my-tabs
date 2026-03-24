@@ -14,6 +14,7 @@ import { setCurrentTab } from '@/features/current-tab-reducer';
 
 import styles from '../scss/TabCard.module.scss';
 import type { SxProps } from '@mui/joy/styles/types';
+import { Edit } from '@mui/icons-material';
 
 interface TabCardProps {
   tab: Tab;
@@ -39,6 +40,10 @@ export const TabCard: FC<TabCardProps> = ({
   const handleGoToTabClick = useNavigateToPage(pathToTabPage, () =>
     dispatch(setCurrentTab(tab)),
   );
+
+  // const handleEditTabClick = useNavigateToPage('', () =>
+  //   dispatch(setCurrentTab(tab)),
+  // );
 
   const checkedStyle = useMemo<SxProps>(() => {
     if (!selectMode) {
@@ -80,13 +85,24 @@ export const TabCard: FC<TabCardProps> = ({
         <Typography level="body-sm">{getCustomDateFormatted(date)}</Typography>
       </Stack>
 
-      <Button
-        sx={{ alignSelf: 'flex-end' }}
-        onClick={handleGoToTabClick}
-        variant="outlined"
+      <Stack
+        direction={'row'}
+        justifyContent={'flex-end'}
+        gap={1}
+        sx={{ flexWrap: 'wrap' }}
       >
-        Перейти
-      </Button>
+        <Button disabled={selectMode} variant="outlined">
+          <Edit fontSize="small" /> Редактировать
+        </Button>
+
+        <Button
+          disabled={selectMode}
+          onClick={handleGoToTabClick}
+          variant="outlined"
+        >
+          Перейти
+        </Button>
+      </Stack>
     </Card>
   );
 };
